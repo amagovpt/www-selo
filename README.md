@@ -2,5 +2,5 @@
 
 Templates dos sítios Web:
 
-- www.acessibilidade.gov.pt
-- selo.usabilidade.gov.pt
+- https://www.acessibilidade.gov.pt
+- https://selo.usabilidade.gov.pt
