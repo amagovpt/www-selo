@@ -5,7 +5,19 @@ document.addEventListener("DOMContentLoaded", () => {
   if (btnEcossistema) {
     btnEcossistema.addEventListener("click", () => {
       btnEcossistema.classList.toggle("open");
+      if ( btnEcossistema.classList.contains("open")){
+        btnEcossistema.ariaExpanded = "true";
+      }
+      else {
+        btnEcossistema.ariaExpanded = "false";
+      }
       ecossistemaAma.classList.toggle("show");
+      if ( ecossistemaAma.classList.contains("show")){
+        ecossistemaAma.ariaHidden = "false";
+      }
+      else {
+        ecossistemaAma.ariaHidden = "true";
+      }
       document.body.classList.toggle("no-scroll");
     });
   }

@@ -385,6 +385,10 @@ hr {
   margin-top: -4px;
 }
 
+.dark-theme .mobile-menu-label {
+  color: #ebf2f6;
+}
+
 .close-mobile-menu {
   color: #fff;
   border: none;

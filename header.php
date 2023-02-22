@@ -26,12 +26,12 @@ defined( 'ABSPATH' ) || exit;
 			<div class="container">
 				<div class="row">
 					<div class="col-12 col-lg-8 top-bar-left align-self-center order-2 order-lg-1">
-						<button class="btn btn-link btn-ecossistema d-flex align-items-center p-1">
+						<button class="btn btn-link btn-ecossistema d-flex align-items-center p-1" aria-expanded="false" >
 							<span class="icon-ed-menu-dots icon" aria-hidden="true"></span>	
 							<span>Uma ferramenta do ecossistema <span class="text-primary fw-bold">acessibilidade.gov.pt</span></span>
 							<span class="icon-arrow-drop icon" aria-hidden="true"></span>
 						</button>
-						<section class="ecossistema-ama">
+						<section class="ecossistema-ama" aria-modal="true" aria-hidden="true" role="dialog">
 							<div class="container">
 								<div class="row">
 									<div class="col-12 col-lg-6 align-self-center">
