@@ -27,9 +27,9 @@ get_header();
                     <div class="col-12 col-lg-8 align-self-end">
                         <h1 class="mb-3">Pesquisou por: <?php the_search_query(); ?></h1>
                         <?php if ( get_search_query() !== '' ) : ?>
-                            <p style="font-size: 1.125rem;"><?php echo $wp_query->found_posts; ?> <?php echo $wp_query->found_posts == 1 ? 'resultado encontrado' : 'resultados encontrados'; ?></p>
+                            <p><?php echo $wp_query->found_posts; ?> <?php echo $wp_query->found_posts == 1 ? 'resultado encontrado' : 'resultados encontrados'; ?></p>
                         <?php else : ?>
-                            <p style="font-size: 1.125rem;">0 resultados encontrados</p>
+                            <p>0 resultados encontrados</p>
                         <?php endif; ?>
                     </div>
                     
@@ -49,7 +49,7 @@ get_header();
                             <a href="<?php the_permalink(); ?>">
                                 <h3><?php the_title(); ?></h3>
                             </a>
-                            <div class="mb-3">
+                            <div class="mb-3" style="font-size: 1rem;">
                                 <?php echo get_the_modified_date('j \d\e F, Y'); ?>
                             </div>
                             <?php if ( has_excerpt() ) : ?>
@@ -59,7 +59,8 @@ get_header();
                             <?php endif; ?>
                         </li>
                     <?php endwhile; ?>
-                    <ul>
+                    </ul>
+                    <?php ama_pagination(); ?>
                 <?php else : ?>
                     <p>Não foram encontrados resultados para esta pesquisa.</p>
                 <?php endif; ?>

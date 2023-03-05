@@ -3,6 +3,10 @@
   --bs-font-sans-serif: "Noto Sans", sans-serif;
 }
 
+body {
+  font-size: 1.125rem;
+}
+
 body.no-scroll {
   overflow: hidden;
 }
@@ -157,6 +161,7 @@ img {
 }
 
 .site-description p {
+  font-size: 1rem;
   margin-bottom: 0;
 }
 
@@ -361,7 +366,7 @@ hr {
 }
 
 .last-update p {
-  font-size: 14px;
+  font-size: 1rem;
   margin-bottom: 0;
 }
 
@@ -425,7 +430,7 @@ hr {
   }
 
   .mobile-overlay-content {
-    padding-top: 58px;
+    padding-top: 77px;
     max-width: 720px;
     padding-right: var(--bs-gutter-x, 0.75rem);
     padding-left: var(--bs-gutter-x, 0.75rem);
@@ -526,6 +531,10 @@ hr {
   margin-bottom: 0.5rem;
 }
 
+.breadcrumb {
+  font-size: 1rem;
+}
+
 .dark-theme .breadcrumb-item.active {
   color: #ebf2f6;
 }
@@ -545,7 +554,15 @@ hr {
   }
 
   .search-form label {
+    font-size: 1rem;
     min-width: 120px;
     margin-bottom: 0;
+  }
+}
+
+@media (min-width: 992px) {
+  #page-wrapper .page-content {
+    width: 90%;
+    margin: auto;
   }
 }

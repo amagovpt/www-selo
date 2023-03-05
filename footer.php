@@ -10,6 +10,7 @@ defined( 'ABSPATH' ) || exit;
 
 <footer>
     <div class="container">
+        <nav aria-label="Menu de rodapé do selo.usabilidade.gov.pt">
         <?php 
         wp_nav_menu(
             array(
@@ -17,6 +18,7 @@ defined( 'ABSPATH' ) || exit;
                 'menu_class' => 'footer-menu',
             )
         ); ?>
+        </nav>
         
         <div class="footer-logos">
             <?php dynamic_sidebar( 'Footer' ); ?>
