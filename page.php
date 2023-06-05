@@ -5,11 +5,11 @@ defined( 'ABSPATH' ) || exit;
 get_header();
 ?>
 
-<div class="wrapper" id="page-wrapper">
 
-    <div class="container" id="content" tabindex="-1">
-
-        <main class="site-main" id="main">
+<main class="site-main" id="main">
+            <div class="wrapper" id="page-wrapper">
+            
+                <div class="container" id="content" tabindex="-1">
 
             <div class="page-header">
                 <nav aria-label="Você está aqui">
@@ -84,11 +84,11 @@ get_header();
                 </div>
             </div>
 
+        </div>
+    
+    </div>
         </main>
 
-    </div>
-
-</div>
 
 <?php
 get_footer();

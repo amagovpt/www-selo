@@ -5,11 +5,12 @@ defined( 'ABSPATH' ) || exit;
 get_header();
 ?>
 
-<div class="wrapper" id="index-wrapper">
+<main class="site-main" id="main">
 
-    <div class="container" id="content" tabindex="-1">
+    <div class="wrapper" id="index-wrapper">
 
-        <main class="site-main" id="main">
+        <div class="container" id="content" tabindex="-1">
+
 
             <?php
             $sticky = get_option( 'sticky_posts' );
@@ -44,11 +45,11 @@ get_header();
 
             <?php the_content(); ?>
 
-        </main>
-
+        </div>
+        
     </div>
 
-</div>
+</main>
 
 <?php
 get_footer();

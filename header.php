@@ -14,7 +14,6 @@ defined( 'ABSPATH' ) || exit;
 
 <body <?php body_class(); ?> >
 
-<div class="site" id="page">
     <header id="wrapper-navbar">
 		<div class="skip-to-content">
 			<div class="container">
