@@ -22,52 +22,45 @@ defined( 'ABSPATH' ) || exit;
 		</div>
 
 		<div class="top-bar">
-			<div class="container">
-				<div class="row">
-					<div class="col-12 col-lg-8 top-bar-left align-self-center order-2 order-lg-1">
-						<button type="button" class="btn btn-link btn-ecossistema d-flex align-items-center p-1 " data-bs-toggle="modal" data-bs-target="#ecossistemaModal">
+			<div class="accordion accordion-flush" id="accordionTopBar">
+				<div class="container">
+					<div class="d-flex justify-content-between">
+						<button type="button" class="btn btn-link btn-ecossistema d-flex align-items-center p-1" data-bs-toggle="collapse" data-bs-target="#flushEcossistema"  aria-expanded="false" aria-controls="flushEcossistema">
 							<span class="icon-ed-menu-dots icon" aria-hidden="true"></span>	
-							<span>Uma ferramenta do ecossistema <span class="text-primary fw-bold">acessibilidade.gov.pt</span></span>
+							<span id="#flushHeading">Uma ferramenta do ecossistema <span class="text-primary fw-bold">acessibilidade.gov.pt</span></span>
 							<span class="icon-arrow-drop icon" aria-hidden="true"></span>
 						</button>
-						<div class="modal ecossistema-ama" id="ecossistemaModal" tabindex="-1" aria-labelledby="ecossistemaModalLabel" aria-hidden="true">
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-header">
-										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-									</div>
-									<div class="modal-body">
-										<div class="container">
-											<div class="row">
-												<div class="col-12 col-lg-6 align-self-center">
-													<div class="d-flex justify-content-between">
-														<?php dynamic_sidebar( 'title-ecossistema-ama' ); ?>
-													</div>
-												</div>
-												<div class="col-12 col-lg-6 align-self-center">
-													<?php dynamic_sidebar( 'description-ecossistema-ama' ); ?>
-												</div>
-											</div>
-											<hr class="mt-4 mb-5">
-											<div class="row">
-												<div class="col-12 col-lg-4">
-													<?php dynamic_sidebar( 'left-column-ecossistema-ama' ); ?>
-												</div>
-												<div class="col-12 col-lg-4">
-													<?php dynamic_sidebar( 'center-column-ecossistema-ama' ); ?>
-												</div>
-												<div class="col-12 col-lg-4">
-													<?php dynamic_sidebar( 'right-column-ecossistema-ama' ); ?>
-												</div>
-											</div>
+						<button class="btn btn-link dark-mode p-1 d-flex align-items-center" id="darkModeBtn">
+							<span id="darkModeLabel">Modo Escuro</span><span class="icon-dark icon" aria-hidden="true"></span>
+						</button>
+					</div>
+					<div id="flushEcossistema" class="accordion-collapse collapse" aria-labelledby="flushHeading" data-bs-parent="#accordionTopBar">
+						<div class="accordion-body">
+							<div class="container">
+								<div class="row">
+									<div class="col-12 col-lg-6 align-self-center">
+										<div class="d-flex justify-content-between">
+											<?php dynamic_sidebar( 'title-ecossistema-ama' ); ?>
 										</div>
+									</div>
+									<div class="col-12 col-lg-6 align-self-center">
+										<?php dynamic_sidebar( 'description-ecossistema-ama' ); ?>
+									</div>
+								</div>
+								<hr class="mt-4 mb-5">
+								<div class="row">
+									<div class="col-12 col-lg-4">
+										<?php dynamic_sidebar( 'left-column-ecossistema-ama' ); ?>
+									</div>
+									<div class="col-12 col-lg-4">
+										<?php dynamic_sidebar( 'center-column-ecossistema-ama' ); ?>
+									</div>
+									<div class="col-12 col-lg-4">
+										<?php dynamic_sidebar( 'right-column-ecossistema-ama' ); ?>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="col-12 col-lg-4 top-bar-right align-self-center order-1 order-lg-2">
-						<button class="btn btn-link dark-mode p-1" id="darkModeBtn"><span id="darkModeLabel">Modo Escuro</span><span class="icon-dark icon" aria-hidden="true"></span></button>
 					</div>
 				</div>
 			</div>
