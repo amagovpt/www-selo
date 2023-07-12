@@ -36,14 +36,14 @@ footer .footer-menu li a:hover {
   padding: 15px;
 }
 
-.footer-logo {
+.footer-logos figure {
   display: inline-block;
   width: 50%;
   vertical-align: middle;
 }
 
 @media (min-width: 576px) {
-  .footer-logo {
+  .footer-logos figure {
     display: inline-block;
     width: 25%;
   }
@@ -66,13 +66,13 @@ footer .footer-menu li a:hover {
     gap: 0.5rem;
   }
 
-  .footer-logo {
+  .footer-logos figure {
     display: initial;
     width: initial;
   }
 }
 
-footer .footer-logo figure {
+footer .footer-logos figure {
   margin-bottom: 0;
 }
 

@@ -96,8 +96,8 @@ function ama_widgets() {
     register_sidebar( array(
 		'name'          => 'Footer',
 		'id'            => 'footer',
-		'before_widget' => '<div class="footer-logo">',
-		'after_widget'  => '</div>',
+		'before_widget' => '',
+		'after_widget'  => '',
 		'before_title'  => '',
 		'after_title'   => '',
 	) );

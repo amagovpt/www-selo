@@ -5,7 +5,7 @@
 }
 
 .top-bar .d-flex.justify-content-between {
-  flex-direction: column-reverse;
+  flex-direction: column;
 }
 
 .top-bar .btn-ecossistema {
@@ -33,7 +33,7 @@
 
 @media (min-width: 992px) {
   .top-bar .d-flex.justify-content-between {
-    flex-direction: row;
+    flex-direction: row-reverse;
   }
   .dark-mode {
     justify-content: end;
