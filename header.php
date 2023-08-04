@@ -25,13 +25,13 @@ defined( 'ABSPATH' ) || exit;
 			<div class="accordion accordion-flush" id="accordionTopBar">
 				<div class="container">
 					<div class="d-flex justify-content-between">
-						<button class="btn btn-link dark-mode p-1 d-flex align-items-center" id="darkModeBtn">
-							<span id="darkModeLabel">Modo Escuro</span><span class="icon-dark icon" aria-hidden="true"></span>
-						</button>
-						<button type="button" class="btn btn-link btn-ecossistema d-flex align-items-center p-1" data-bs-toggle="collapse" data-bs-target="#flushEcossistema"  aria-expanded="false" aria-controls="flushEcossistema">
+						<button type="button" class="btn btn-link btn-ecossistema collapsed d-flex align-items-center p-1" data-bs-toggle="collapse" data-bs-target="#flushEcossistema"  aria-expanded="false" aria-controls="flushEcossistema">
 							<span class="icon-ed-menu-dots icon" aria-hidden="true"></span>	
 							<span id="#flushHeading">Uma ferramenta do ecossistema <span class="text-primary fw-bold">acessibilidade.gov.pt</span></span>
 							<span class="icon-arrow-drop icon" aria-hidden="true"></span>
+						</button>
+						<button class="btn btn-link dark-mode p-1 d-flex align-items-center" id="darkModeBtn">
+							<span id="darkModeLabel">Modo Escuro</span><span class="icon-dark icon" aria-hidden="true"></span>
 						</button>
 					</div>
 					<div id="flushEcossistema" class="accordion-collapse collapse" aria-labelledby="flushHeading" data-bs-parent="#accordionTopBar">

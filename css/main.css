@@ -1,5 +1,9 @@
 :root {
   --primary: #333399;
+  --secondary: #b1e4b2;
+  --tertiary: #edeceb;
+  --quaternary: #f0a502;
+  --quinary: #b6dcf6;
   --bs-font-sans-serif: "Noto Sans", sans-serif;
 }
 

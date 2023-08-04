@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit;
         </div>
 
         <div class="logo-selo">
-            <img src="<?php echo get_template_directory_uri() . '/img/selo-ouro.svg'; ?>" alt="O presente sítio web está em conformidade com os requisitos do Selo Ouro de Usabilidade e Acessibilidade">
+            <img src="<?php echo get_template_directory_uri() . '/img/selo-ouro.svg'; ?>" alt="">
         </div>
 
         <?php dynamic_sidebar( 'Copyright' ); ?>

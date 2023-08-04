@@ -1,0 +1,16 @@
+.site-name {
+    font-size: 1.802rem;
+    font-family: var(--bs-font-sans-serif);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+@media (min-width: 576px) {
+    .site-name {
+        font-size: 2.488rem;
+    }
+}
+
+.dark-mode .site-name {
+    color: var(--quinary);
+}
