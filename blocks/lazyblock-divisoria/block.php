@@ -7,4 +7,11 @@
  * @var  string $context Preview context [editor,frontend].
  */
 
-print('<p>RCP</p><hr class="my-5" aria-hidden="true" style="border:1px solid #000">');
+// Desabilita o wrapper do bloco
+add_filter( $block["slug"].'/frontend_allow_wrapper', '__return_false' );
+
+if($context === 'frontend') {
+	print('<hr class="divisoria '.$attributes["className"].'" aria-hidden="true">');
+} else {
+	print('<hr class="divisoria '.$attributes["className"].'" aria-hidden="true">');
+}

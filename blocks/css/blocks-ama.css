@@ -1,0 +1,134 @@
+.site-name {
+    font-size: 1.802rem;
+    line-height: 1.2;
+    font-family: var(--bs-font-sans-serif);
+    font-weight: 500;
+}
+
+@media (min-width: 576px) {
+    .site-name {
+        font-size: 2.488rem;
+    }
+}
+
+.dark-theme .site-name {
+    color: var(--quinary);
+}
+
+/** Cores **/
+.has-background.has-primaria-background-color {
+    background-color: var(--primary);
+}
+
+.has-text-color.has-primaria-color {
+    color: var(--primary);
+}
+
+.has-background.has-secundaria-background-color {
+    background-color: var(--secondary);
+}
+
+.has-text-color.has-secundaria-color {
+    color: var(--secondary);
+}
+
+.has-background.has-terciaria-background-color {
+    background-color: var(--tertiary);
+}
+
+.has-text-color.has-terciaria-color {
+    color: var(--tertiary);
+}
+
+.has-background.has-quaternaria-background-color {
+    background-color: var(--quaternary);
+}
+
+.has-text-color.has-quaternaria-color {
+    color: var(--quaternary);
+}
+
+.has-background.has-quintenaria-background-color {
+    background-color: var(--quinary);
+}
+
+.has-text-color.has-quintenaria-color {
+    color: var(--quinary);
+}
+
+.has-background.has-branco-background-color {
+    background-color: #FFF;
+}
+
+.has-text-color.has-branco-color {
+    color: #FFF;
+}
+
+.has-background.has-preto-background-color {
+    background-color: #000;
+}
+
+.has-text-color.has-preto-color {
+    color: #000;
+}
+
+/** Espaçamento **/
+.espacamento-ama {
+    min-height: 1rem;
+}
+
+/** Linha **/
+hr.linha {
+    border-top: 1px solid #212529;
+}
+
+/** Ligação **/
+.wp-block-lazyblock-ligacao {
+    margin-bottom: 1rem;
+    color: var(--primary);
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+
+}
+
+.wp-block-lazyblock-ligacao a {
+    text-decoration: none;
+}
+
+.wp-block-lazyblock-ligacao:hover a {
+    text-decoration: underline;
+}
+
+.dark-theme .wp-block-lazyblock-ligacao,
+.dark-theme .wp-block-lazyblock-ligacao span.icon {
+    color: var(--quinary);
+}
+
+/** Indicadores **/
+.wp-block-lazyblock-indicador {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border-radius: 5px;
+    padding: 40px;
+}
+
+.wp-block-lazyblock-indicador .titulo {
+    color: inherit;
+    display: block;
+    font-size: 65px;
+    font-weight: 600;
+}
+
+.wp-block-lazyblock-indicador .corpo {
+    color: inherit;
+    display: block;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.5;
+}
+

@@ -6,16 +6,10 @@
  * @var  array  $block Block data.
  * @var  string $context Preview context [editor,frontend].
  */
-wp_enqueue_style(
-	'block-ama-site-name',
-	get_template_directory_uri() . '/blocks/lazyblock-ama-site-name/css/ama-site-name.css',
-	[],
-	filemtime(get_template_directory() . '/blocks/lazyblock-ama-site-name/css/ama-site-name.css')
-);
 if(is_front_page()) {
-	echo '<h1 class="site-name">'.$attributes['site-name'].'</h1>';
+	echo '<h1 class="site-name mb-0">'.$attributes['site-name'].'</h1>';
 } else {
-	echo '<span class="site-name">'.$attributes['site-name'].'</span>';
+	echo '<span class="site-name mb-0">'.$attributes['site-name'].'</span>';
 }
 
 
