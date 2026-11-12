@@ -1,0 +1,413 @@
+/* Documentação V2 Navigation */
+.doc-nav-link {
+  display: flex;
+  align-items: center;
+  color: var(--primary, #0056b3);
+  font-weight: bold;
+  transition: color 0.2s;
+}
+
+.doc-nav-link:hover {
+  color: var(--primary-dark, #004494);
+}
+
+.doc-nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  line-height: 1;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.doc-nav-link:hover .doc-nav-icon {
+  background-color: currentColor;
+  color: #fff;
+}
+
+.doc-nav-text {
+  font-size: 1.1rem;
+}
+
+/* Menu Collapse Button */
+.toggle-menu-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: var(--primary, #312783) !important;
+  border-color: var(--primary, #312783) !important;
+  color: #ffffff !important;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 9999px !important;
+}
+#toggleMenuBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.toggle-menu-btn:hover {
+  background-color: var(--primary-dark, #251d66) !important;
+  border-color: var(--primary-dark, #251d66) !important;
+  color: #ffffff !important;
+}
+
+.toggle-menu-btn:focus {
+  background-color: var(--primary, #312783) !important;
+  border-color: var(--primary, #312783) !important;
+  color: #ffffff !important;
+  outline: 2px solid var(--primary, #312783);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px rgba(49, 39, 131, 0.2);
+}
+
+.toggle-menu-btn:active {
+  background-color: var(--primary-dark, #251d66) !important;
+  border-color: var(--primary-dark, #251d66) !important;
+  transform: translateY(0);
+}
+
+.toggle-menu-btn i {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toggle-menu-btn .btn-text {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+}
+
+/* Dark Mode Button Styles */
+.dark-theme .toggle-menu-btn {
+  background-color: #b6dcf6;
+  border-color: #b6dcf6;
+  color: #20242c;
+}
+
+.dark-theme .toggle-menu-btn:hover {
+  background-color: #a0c8e2;
+  border-color: #a0c8e2;
+  color: #20242c;
+  box-shadow: 0 2px 4px rgba(182, 220, 246, 0.3);
+}
+
+.dark-theme .toggle-menu-btn:focus {
+  background-color: #b6dcf6;
+  border-color: #b6dcf6;
+  color: #20242c;
+  outline: 2px solid #b6dcf6;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px rgba(182, 220, 246, 0.2);
+}
+
+.dark-theme .toggle-menu-btn:active {
+  background-color: #a0c8e2;
+  border-color: #a0c8e2;
+}
+
+/* Filter Fieldset Styles */
+.doc-filter-fieldset {
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  padding: 1rem;
+  margin: 0 0 1rem 0;
+  background-color: #fff;
+  width: 100%;
+}
+
+.doc-filter-legend {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #333;
+  padding: 0 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.doc-filter-checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.doc-filter-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.doc-filter-checkbox {
+  width: 1.1rem;
+  height: 1.1rem;
+  cursor: pointer;
+  accent-color: var(--primary, #312783);
+  margin: 0;
+}
+
+.dark-theme .doc-filter-fieldset {
+  border-color: #495057;
+  background-color: #2c3136;
+}
+
+.dark-theme .doc-filter-legend {
+  color: #b6dcf6;
+}
+
+.dark-theme .doc-filter-label {
+  color: #b6dcf6;
+}
+
+.dark-theme .doc-filter-checkbox {
+  accent-color: #b6dcf6;
+}
+
+/* Sidebar Styles */
+.doc-sidebar-nav {
+  font-size: 0.95rem;
+}
+
+.doc-sidebar-wrapper {
+  padding: 0px !important;
+  position: relative;
+  display: block; /* Visible by default */
+  transition: all 0.3s ease-in-out;
+}
+
+/* Hide nav when toggled */
+.doc-sidebar-wrapper.hide {
+  display: none !important;
+}
+
+.doc-sidebar-inner {
+  background-color: #f1f1f1;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 2rem;
+}
+
+.doc-sidebar-nav ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+/* Sub-menus indentation */
+.doc-sidebar-nav .sub-menu {
+  padding-left: 1.5rem;
+}
+
+.doc-sidebar-nav li {
+  margin-bottom: 0.2rem; /* Reverted spacing as requested */
+}
+
+.doc-menu-item-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.doc-menu-checkbox-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.doc-menu-checkbox {
+  width: 1.1rem;
+  height: 1.1rem;
+  cursor: pointer;
+  accent-color: var(--primary, #312783);
+  margin: 0;
+}
+
+.doc-sidebar-nav a {
+  display: block;
+  flex: 1;
+  padding: 0.5rem 1rem;
+  color: #333;
+  text-decoration: none;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.doc-sidebar-nav a .menu-text {
+  border-bottom: 2px solid transparent;
+  transition: border-bottom-color 0.2s;
+}
+
+.doc-sidebar-nav a:hover {
+  background-color: #e9ecef; /* Slightly darker on hover */
+  color: #000;
+}
+
+.doc-sidebar-nav a:hover .menu-text {
+  border-bottom-color: var(--primary, #312783);
+}
+
+/* Active Item Style - applies to all levels */
+.doc-sidebar-nav .current-menu-item > a {
+  background-color: var(--primary, #312783);
+  color: #fff;
+  font-weight: bold;
+}
+
+.doc-sidebar-nav .current-menu-item > a:hover {
+  background-color: var(--primary-dark, #251d66);
+  color: #fff;
+}
+
+/* Removed redundant broad selectors that were causing multiple items to look active */
+
+/* Parent items (Depth 0) or Items with Children */
+.doc-sidebar-nav .menu-depth-0 > a,
+.doc-sidebar-nav .has-children > a {
+  font-weight: bold;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+  .doc-sidebar-nav .sub-menu {
+    padding-left: 1rem;
+  }
+
+  .border-end {
+    border-right: none !important;
+    border-bottom: 1px solid #dee2e6;
+    margin-bottom: 2rem;
+  }
+}
+
+/* Dark Mode Styles */
+.dark-theme .doc-sidebar-wrapper {
+  background-color: #20242c;
+}
+
+.dark-theme .doc-sidebar-inner {
+  background-color: #20242c;
+}
+
+.dark-theme .doc-sidebar-nav a {
+  color: #b6dcf6;
+}
+
+.dark-theme .doc-sidebar-nav a .menu-text {
+  border-bottom: 2px solid transparent;
+  transition: border-bottom-color 0.2s;
+}
+
+.dark-theme .doc-menu-checkbox {
+  accent-color: #b6dcf6;
+}
+
+.dark-theme .doc-sidebar-nav a:hover {
+  background-color: rgba(182, 220, 246, 0.1);
+  color: #ffffff;
+}
+
+.dark-theme .doc-sidebar-nav a:hover .menu-text {
+  border-bottom-color: #b6dcf6;
+}
+
+.dark-theme .doc-sidebar-nav .current-menu-item > a {
+  background-color: #b6dcf6;
+  color: #20242c;
+}
+
+.dark-theme .doc-sidebar-nav .current-menu-item > a:hover {
+  background-color: #a0c8e2;
+  color: #20242c;
+}
+
+/* Removed redundant broad selectors for dark mode */
+
+/* Accessibility Utilities */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Chart Toggle Button */
+#toggle-chart-table {
+  display: inline-block;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  z-index: 10;
+  position: relative;
+  margin-left: auto; /* Force to right */
+  align-self: flex-end; /* Force to right in flex container */
+}
+
+.grafico-selos-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: auto;
+  max-width: 100%;
+  float: right;
+  margin-left: 2rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 991.98px) {
+  .grafico-selos-container {
+    float: none;
+    width: 100%;
+    align-items: center;
+    margin-left: 0;
+  }
+}
+
+/* AMA Icon Classes for Menu Toggle */
+.AMA-SetacurtaoficialEsq-Line,
+.AMA-SetacurtaoficialDto-Line {
+  font-family: "ama" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+}
+
+.AMA-SetacurtaoficialEsq-Line:before,
+.AMA-SetacurtaoficialDto-Line:before {
+  display: inline-block;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+.AMA-SetacurtaoficialEsq-Line:before {
+  content: "\68"; /* Using icon-content-menu-left code */
+  font-size: 20px;
+}
+
+.AMA-SetacurtaoficialDto-Line:before {
+  content: "\69"; /* Using icon-content-menu-right code */
+  font-size: 20px;
+}

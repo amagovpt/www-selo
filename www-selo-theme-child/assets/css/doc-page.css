@@ -1,0 +1,458 @@
+#sidebarMenu {
+  display: none;
+}
+
+.sideMenulongcontent {
+  display: block !important;
+}
+
+.menu-lateral {
+  background-color: #f1f1f1;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Dark mode - Apenas background do sidebar */
+.dark-theme .doc-sp-sidebar {
+  background-color: #333399;
+}
+
+/* Dark mode - Cores do texto no sidebar */
+.dark-theme .doc-sp-sidebar .accordion-button,
+.dark-theme .doc-sp-sidebar .accordion-button.collapsed {
+  color: var(--quinary) !important;
+}
+
+.dark-theme .doc-sp-sidebar .accordion-button.active,
+.dark-theme .doc-sp-sidebar .accordion-button.no-toggle a.nav-link.active,
+.dark-theme .doc-sp-sidebar .accordion-body .nav-link.active {
+  color: #ffffff !important;
+}
+
+.dark-theme .doc-sp-sidebar .accordion-button.no-toggle a.nav-link {
+  color: var(--quinary) !important;
+}
+
+.dark-theme .doc-sp-sidebar .accordion-body .nav-link {
+  color: var(--quinary) !important;
+}
+
+.dark-theme .doc-sp-sidebar .sidebar-heading {
+  color: var(--quinary) !important;
+}
+
+/* Dark mode - Ícone de seta */
+.dark-theme .doc-sp-sidebar .accordion-button::after,
+.dark-theme .doc-sp-sidebar .accordion-button.collapsed::after {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e") !important;
+}
+
+.dark-theme .doc-sp-sidebar .accordion-button.active::after {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e") !important;
+}
+
+
+
+/* Responsividade para mobile */
+@media (max-width: 767.98px) {
+  /* Remove mt-5 no mobile para o container do doc-spa */
+  .doc-spa-container,
+  .doc-spa-container.mt-5,
+  .container.mt-5.doc-spa-container {
+    margin-top: 0 !important;
+  }
+  
+  /* Garante que o sidebar seja visível no mobile */
+  #sidebarMenu {
+    display: block !important;
+  }
+  
+  .menu-lateral {
+    /* Mantém o sidebar visível no mobile */
+    background-color: #f8f9fa;
+    margin-bottom: 1rem;
+    display: block !important;
+  }
+  
+  /* Dark mode mobile - Apenas background do sidebar */
+  .dark-theme .doc-sp-sidebar {
+    background-color: #333399;
+  }
+  
+  .menu-lateral .accordion {
+    margin-bottom: 0;
+  }
+  
+  /* Ajustes para o conteúdo principal no mobile */
+  main {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
+/* Desktop - sempre mostra o sidebar */
+@media (min-width: 768px) {
+  .menu-lateral {
+    display: block !important;
+  }
+}
+
+/* Accordion geral */
+.accordion-item {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+/* Botões de accordion (com ou sem dropdown) - estilo padrão */
+.accordion-button,
+.accordion-button.collapsed {
+  background-color: transparent !important;
+  color: #000000 !important;
+  font-weight: normal;
+  padding-left: 2rem !important;
+  padding-right: 2rem !important;
+  border-radius: 0;
+  border: none !important;
+}
+
+/* Ícone de seta (abre/fecha) */
+.accordion-button::after {
+  color: #000 !important;
+  filter: none !important;
+}
+
+/* Botão aberto mas não activo (dropdown aberto mas não activo) */
+.accordion-button:not(.collapsed) {
+  color: #000000 !important;
+  font-weight: normal !important;
+}
+
+/* Botão activo */
+.accordion-button.active {
+  color: #2c2676 !important;
+  font-weight: bold !important;
+}
+
+.accordion-button.active::after {
+  color: #2c2676 !important;
+}
+
+/* Adiciona borda inferior apenas nos itens de primeiro nível */
+
+/* Previne duplicação de borda nos .no-toggle */
+.accordion-button.no-toggle {
+  border: none !important;
+  border-bottom: none !important;
+}
+
+/* Oculta ícone de dropdown se não tiver submenu */
+.accordion-button.no-toggle::after {
+  display: none !important;
+}
+
+/* Link sem dropdown (dentro do botão) */
+.accordion-button.no-toggle a.nav-link {
+  color: #000 !important;
+  font-weight: normal !important;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+}
+
+/* Link sem dropdown - activo */
+.accordion-button.no-toggle a.nav-link.active {
+  color: #2c2676 !important;
+  font-weight: bold !important;
+}
+
+/* Subitens (links internos) */
+.menu-lateral .accordion-body .nav-link {
+  color: #000 !important;
+  font-weight: normal;
+  padding-left: 1rem;
+}
+.menu-lateral .accordion-body .nav-link:hover {
+  text-decoration: underline;
+  color: #2c2676 !important;
+}
+.menu-lateral .accordion-body .nav-link.active {
+  color: #2c2676 !important;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+/* Título acima do menu */
+.sidebar-heading {
+  padding: 0px 1.5rem;
+  margin-bottom: 2rem;
+  color: #212529;
+  text-transform: none !important;
+}
+
+/* Remove margens laterais da linha principal */
+.content_rows {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+}
+
+/* Borda inferior uniforme para itens do primeiro nível (com ou sem dropdown) */
+
+/* Remove todas as bordas extras */
+.accordion-item,
+.accordion-header {
+  border: none !important;
+  border-bottom: none !important;
+}
+
+/* Define borda inferior uniforme APENAS para botões do primeiro nível */
+.menu-lateral
+  > .accordion
+  > .accordion-item
+  > .accordion-header
+  > .accordion-button,
+.menu-lateral
+  > .accordion
+  > .accordion-item
+  > .accordion-header
+  > .accordion-button.no-toggle {
+  border-bottom: 1px solid #ccc !important;
+}
+
+/* Dark mode - Bordas inferiores (mais específico para garantir que sobrescreva) */
+.dark-theme .doc-sp-sidebar .menu-lateral
+  > .accordion
+  > .accordion-item
+  > .accordion-header
+  > .accordion-button,
+.dark-theme .doc-sp-sidebar .menu-lateral
+  > .accordion
+  > .accordion-item
+  > .accordion-header
+  > .accordion-button.no-toggle {
+  border-bottom: 1px solid var(--quinary) !important;
+}
+
+/* Dark mode - Bordas inferiores */
+.dark-theme .doc-sp-sidebar .menu-lateral
+  > .accordion
+  > .accordion-item
+  > .accordion-header
+  > .accordion-button,
+.dark-theme .doc-sp-sidebar .menu-lateral
+  > .accordion
+  > .accordion-item
+  > .accordion-header
+  > .accordion-button.no-toggle {
+  border-bottom: 1px solid var(--quinary) !important;
+}
+
+/* Garante que não tenha sombra extra nos botões */
+.accordion-button {
+  box-shadow: none !important;
+}
+
+/* Estilos para o template Doc SPA */
+
+.doc-spa-container {
+  min-height: 0 !important;
+}
+
+.doc-sp-sidebar {
+  position: sticky;
+  top: 2rem;
+  height: auto !important;   /* era 100% */
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.sidebar-heading {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6c757d;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #dee2e6;
+}
+
+/* Estilos para o accordion do menu */
+#sidebarMenu .accordion-item {
+  border: none;
+  margin-bottom: 0.25rem;
+}
+
+#sidebarMenu .accordion-button {
+  background: transparent;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  color: #495057;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+#sidebarMenu .accordion-button:hover {
+  background: #e9ecef;
+  color: #212529;
+}
+
+#sidebarMenu .accordion-button:not(.collapsed) {
+  background: #e9ecef;
+  color: #212529;
+  box-shadow: none;
+}
+
+#sidebarMenu .accordion-button:focus {
+  box-shadow: none;
+  border-color: transparent;
+}
+
+#sidebarMenu .accordion-button.no-toggle {
+  background: transparent;
+  cursor: pointer;
+}
+
+#sidebarMenu .accordion-button.no-toggle:hover {
+  background: #e9ecef;
+}
+
+/* Estilos para links ativos */
+#sidebarMenu a.active {
+  background: transparent !important;
+  color: #333399 !important;
+  border-radius: 0.25rem;
+}
+
+#sidebarMenu a.active:hover {
+  background: transparent !important;
+  color: #333399 !important;
+}
+
+/* Estilos para o conteúdo principal */
+
+
+/* Responsividade */
+@media (max-width: 767.98px) {
+  .doc-sp-sidebar {
+    position: static;
+    margin-bottom: 2rem;
+  }
+  
+  #sidebarMenu {
+    margin-bottom: 1rem;
+  }
+}
+
+/* Animações */
+.accordion-collapse {
+  transition: all 0.3s ease;
+}
+
+.accordion-button {
+  transition: all 0.2s ease;
+}
+
+/* Estados de carregamento */
+.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Estilos para mensagens de erro */
+.error-message {
+  color: #dc3545;
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 0.25rem;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+/* Estilos para mensagens de sucesso */
+.success-message {
+  color: #155724;
+  background: #d4edda;
+  border: 1px solid #c3e6cb;
+  border-radius: 0.25rem;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.doc-spa-container #content,
+.doc-spa-container .wrapper.full-width-cinza,
+.doc-spa-container .page-content {
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+
+/* ====== Larguras 27% / 73% no desktop ====== */
+@media (min-width: 992px) { /* breakpoint lg do Bootstrap */
+  .doc-spa-container .doc-sp-sidebar {
+    flex: 0 0 27% !important;
+    max-width: 27% !important;
+  }
+  .doc-spa-container .doc-sp-content {
+    flex: 0 0 73% !important;
+    max-width: 73% !important;
+  }
+}
+
+/* Mobile/tablet: 100% */
+@media (max-width: 991.98px) {
+  .doc-spa-container .doc-sp-sidebar,
+  .doc-spa-container .doc-sp-content {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+
+/* ====== Padding extra no conteúdo da direita ====== */
+.doc-sp-content {
+  /* aumenta um pouco — override no Bootstrap */
+  padding-left: 3rem !important;
+  padding-right: 3rem !important;
+}
+
+/* ====== Aumentar padding dos accordions (menu) ====== */
+#sidebarMenu .accordion-button,
+#sidebarMenu .accordion-button.collapsed,
+.menu-lateral > .accordion > .accordion-item > .accordion-header > .accordion-button,
+.menu-lateral > .accordion > .accordion-item > .accordion-header > .accordion-button.no-toggle {
+  /* antes tinhas ~0.5rem; sobe um pouco o vertical e mantém boa área de clique */
+  padding: 0.875rem 2.25rem !important; /* top/bottom 14px, lados 36px */
+}
+
+/* ====== Remover borda do último item do menu ====== */
+.menu-lateral > .accordion > .accordion-item:last-child > .accordion-header > .accordion-button,
+.menu-lateral > .accordion > .accordion-item:last-child > .accordion-header > .accordion-button.no-toggle {
+  border-bottom: none !important;
+}
+
+/* Dark theme: também sem borda no último */
+.dark-theme .doc-sp-sidebar .menu-lateral
+  > .accordion
+  > .accordion-item:last-child
+  > .accordion-header
+  > .accordion-button,
+.dark-theme .doc-sp-sidebar .menu-lateral
+  > .accordion
+  > .accordion-item:last-child
+  > .accordion-header
+  > .accordion-button.no-toggle {
+  border-bottom: none !important;
+}
+
+/* ====== Menu lateral: 16px em todos os itens ====== */
+#sidebarMenu .accordion-button,
+#sidebarMenu .accordion-button.collapsed,
+.menu-lateral > .accordion > .accordion-item > .accordion-header > .accordion-button,
+.menu-lateral > .accordion > .accordion-item > .accordion-header > .accordion-button.no-toggle,
+#sidebarMenu .accordion-button.no-toggle a.nav-link,
+#sidebarMenu .accordion-body .nav-link,
+.menu-lateral .accordion-body .nav-link {
+  font-size: 16px !important;
+  line-height: 1.4;
+}
+

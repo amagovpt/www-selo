@@ -1,0 +1,24 @@
+.biografia {
+    background-color: #fff;
+}
+
+.dark-theme .biografia {
+    background-color: var(--body-dark);
+}
+
+.page-header .featured-image {
+    border-radius: 50%;
+    overflow: hidden;
+    max-width: 300px;
+}
+
+#page-wrapper.full-width-cinza .page-content {
+    padding: 3rem 0;
+}
+
+#content .featured-image > img{
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    object-position: center;
+}
