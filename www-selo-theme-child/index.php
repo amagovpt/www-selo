@@ -28,43 +28,23 @@ $destaques    = $e_blogue ? ama_blogue_destaques() : [];
 ?>
 <main class="site-main" id="main">
     <div class="wrapper" id="page-wrapper">
-        <div class="container" id="content" tabindex="-1">
-            <div class="page-header">
-                <nav aria-label="Você está aqui">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">
-                            <a href="<?= esc_url( home_url( '/' ) ); ?>">Início</a>
-                        </li>
-                        <?php if ( $page_id && has_post_parent( $page_id ) ) : ?>
-                            <?php $post_parent_id = wp_get_post_parent_id( $page_id ); ?>
-                            <li class="breadcrumb-item">
-                                <a href="<?= esc_url( get_the_permalink( $post_parent_id ) ); ?>"><?= esc_html( get_the_title( $post_parent_id ) ); ?></a>
-                            </li>
-                        <?php endif; ?>
-                        <li class="breadcrumb-item active" aria-current="page">
-                            <?= esc_html( $titulo ); ?>
-                        </li>
-                    </ol>
-                </nav>
-                <div class="row">
-                    <div class="col-12 col-lg-8<?= $page_id && has_excerpt( $page_id ) ? '' : ' align-self-end'; ?>">
-                        <h1><?= esc_html( $titulo ); ?><?= $pagina_atual > 1 ? '<span class="visually-hidden">, página ' . $pagina_atual . '</span>' : ''; ?></h1>
-                        <?php if ( $page_id && has_excerpt( $page_id ) ) : ?>
-                            <div class="excerpt">
-                                <?= wp_kses_post( get_the_excerpt( $page_id ) ); ?>
-                            </div>
-                        <?php endif; ?>
-                    </div>
-                    <?php if ( $page_id && has_post_thumbnail( $page_id ) ) : ?>
-                        <div class="d-none d-lg-flex col-lg-4 d-flex justify-content-center featured-image">
-                            <div class="featured-image">
-                                <?= get_the_post_thumbnail( $page_id ); ?>
-                            </div>
-                        </div>
-                    <?php endif; ?>
-                </div>
-            </div>
-
+        <div id="content" tabindex="-1">
+            <?php
+            $titulo_h1 = esc_html( $titulo ) . ( $pagina_atual > 1 ? '<span class="visually-hidden">, página ' . $pagina_atual . '</span>' : '' );
+            get_template_part( 'template-parts/cabecalho', 'pagina', $page_id
+                ? [ 'post_id' => $page_id, 'titulo' => $titulo_h1, 'atual' => $titulo ]
+                : [
+                    'post_id'   => 0,
+                    'titulo'    => $titulo_h1,
+                    'atual'     => $titulo,
+                    'descricao' => get_the_archive_description(),
+                    'imagem'    => '',
+                    'migalhas'  => get_option( 'page_for_posts' )
+                        ? [ [ 'url' => get_permalink( get_option( 'page_for_posts' ) ), 'titulo' => get_the_title( get_option( 'page_for_posts' ) ) ] ]
+                        : [],
+                ] );
+            ?>
+            <div class="container">
             <div class="page-content blogue-agregador">
                 <?php if ( 1 === $pagina_atual && $destaques ) : ?>
                     <?php $principal = get_post( $destaques[0] ); ?>
@@ -169,6 +149,7 @@ $destaques    = $e_blogue ? ama_blogue_destaques() : [];
                         <?php endif; ?>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     </div>

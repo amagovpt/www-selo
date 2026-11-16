@@ -104,33 +104,14 @@ get_header();
     <main class="site-main" id="main">
         <div class="wrapper" id="page-wrapper">
             <div class="container-fluid p-0" id="content" tabindex="-1">
-            <div class="page-header">
-                <div class="container">
-                    <nav aria-label="Você está aqui">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item">
-                                <a href="<?= esc_url( home_url( '/' ) ); ?>">Início</a>
-                            </li>
-                            <?php if ( has_post_parent() ) : ?>
-                                <?php $post_parent_id = wp_get_post_parent_id(); ?>
-                                <li class="breadcrumb-item">
-                                    <a href="<?= esc_url( get_the_permalink( $post_parent_id ) ); ?>">
-                                        <?= esc_html( get_the_title( $post_parent_id ) ); ?>
-                                    </a>
-                                </li>
-                            <?php endif; ?>
-                            <li class="breadcrumb-item active" aria-current="page">
-                                <?= esc_html( $encontrado ? $sitio['name'] : 'Plataforma não encontrada' ); ?>
-                            </li>
-                        </ol>
-                    </nav>
-                    <div class="row">
-                        <div class="col-12 col-lg-9">
-                            <h1>Ficha de identificação da plataforma com Selo de Usabilidade e Acessibilidade</h1>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <?php
+            get_template_part( 'template-parts/cabecalho', 'pagina', [
+                'titulo'    => 'Ficha de identificação da plataforma com Selo de Usabilidade e Acessibilidade',
+                'descricao' => '',
+                'imagem'    => '',
+                'atual'     => $encontrado ? $sitio['name'] : 'Plataforma não encontrada',
+            ] );
+            ?>
             <div class="page-content overflow-x-hidden">
                 <div class="container ficha mb-5">
                     <?php if ( $encontrado ) : ?>
