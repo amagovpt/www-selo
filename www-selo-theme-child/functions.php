@@ -46,6 +46,9 @@ add_action('wp_enqueue_scripts', 'child_theme_enqueue_stylesheet', 11);
 // Carrega os ficheiros com shortcodes
 include_once  get_stylesheet_directory() . '/inc/shortcodes/index.php';
 
+// Página agregadora do blogue (destaques, lista paginada, mais lidos)
+require_once get_stylesheet_directory() . '/inc/blogue.php';
+
 // Carrega os ficheiros com funções auxiliares
 require_once get_stylesheet_directory() . '/inc/helper-functions.php';
 
