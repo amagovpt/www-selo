@@ -127,7 +127,7 @@ function inicializar_opcoes() {
     // Adiciona campo de configuração para a URL do endpoint de indicadores
     add_settings_field(
         'ama_indicadores_endpoint_url',
-        'Endpoint da REST API do Observatório',
+        'Fonte dos sítios web (endpoint do Observatório ou JSON)',
         'callback_campo_indicadores_endpoint_url',
         'ama_definicoes',
         'ama_seccao_indicadores_sitios_web'
@@ -136,13 +136,29 @@ function inicializar_opcoes() {
     // Registra as opções no base de dados do endereço do endpoint de indicadores
     register_setting(
         'ama_definicoes',
-        'indicadores_endpoint_url'
+        'indicadores_endpoint_url',
+        ['sanitize_callback' => 'esc_url_raw']
+    );
+
+    // Fonte das aplicações móveis (JSON com a mesma estrutura). Opcional.
+    add_settings_field(
+        'ama_selo_fonte_apps_url',
+        'Fonte das aplicações móveis (JSON)',
+        'ama_selo_campo_fonte_apps_url',
+        'ama_definicoes',
+        'ama_seccao_indicadores_sitios_web'
+    );
+
+    register_setting(
+        'ama_definicoes',
+        'ama_selo_fonte_apps_url',
+        ['sanitize_callback' => 'esc_url_raw']
     );
 
     // Adiciona o campo para a data do WP-Cron da atualização de dados dos Sítios ‘Web’.
     add_settings_field(
         'ama_cron_job_date',
-        'Data e hora da execução da tarefa',
+        'Hora da execução da tarefa',
         'callback_campo_cron_job_date',
         'ama_definicoes',
         'ama_seccao_indicadores_sitios_web'
@@ -151,7 +167,8 @@ function inicializar_opcoes() {
     // Registra a opção de data para o WP-Cron na base de dados
     register_setting(
         'ama_definicoes',
-        'ama_cron_job_date'
+        'ama_cron_job_date',
+        ['sanitize_callback' => 'ama_selo_sanitizar_hora']
     );
 
     // Adiciona o campo para a frequência do WP-Cron da atualização de dados dos Sítios ‘Web’.
@@ -166,7 +183,8 @@ function inicializar_opcoes() {
     // Registra a opção de frequencia para o WP-Cron na base de dados
     register_setting(
         'ama_definicoes',
-        'ama_cron_job_frequency'
+        'ama_cron_job_frequency',
+        ['sanitize_callback' => 'ama_selo_sanitizar_frequencia']
     );
 
     // Adiciona o campo para guardar o e-mail que ira receber notificacoes de erro na sincronização
@@ -180,19 +198,92 @@ function inicializar_opcoes() {
     // Registra a opção de email para notificações de erro na sincronização
     register_setting(
         'ama_definicoes',
-        'ama_email_feedback_sincronizacao'
+        'ama_email_feedback_sincronizacao',
+        ['sanitize_callback' => 'ama_selo_sanitizar_emails']
     );
+}
+
+/**
+ * Guarda a hora no formato HH:MM (aceita também o valor antigo "AAAA-MM-DDTHH:MM").
+ *
+ * @param mixed $valor
+ * @return string
+ */
+function ama_selo_sanitizar_hora($valor): string
+{
+    if (preg_match('/(\d{1,2}):(\d{2})/', (string) $valor, $m) && (int) $m[1] < 24 && (int) $m[2] < 60) {
+        return sprintf('%02d:%02d', $m[1], $m[2]);
+    }
+
+    return AMA_SELO_CRON_HORA_OMISSAO;
+}
+
+/**
+ * Só aceita frequências que existam no WP-Cron.
+ *
+ * @param mixed $valor
+ * @return string
+ */
+function ama_selo_sanitizar_frequencia($valor): string
+{
+    return array_key_exists((string) $valor, wp_get_schedules()) ? (string) $valor : 'daily';
+}
+
+/**
+ * Lista de e-mails válidos separados por vírgulas.
+ *
+ * @param mixed $valor
+ * @return string
+ */
+function ama_selo_sanitizar_emails($valor): string
+{
+    $emails = array_filter(array_map('sanitize_email', explode(',', (string) $valor)), 'is_email');
+
+    return implode(', ', $emails);
 }
 
 // Callback para renderizar a seção
 function meu_callback_secao() {
     echo '<p>As seguintes opções servem o propósito de agendar a tarefa de sincronia de dados de sítios web entre o Observatório e o sítio do Selo.</p>';
+    echo '<p>A tarefa corre uma vez por dia à hora indicada (hora de Lisboa). Os dados publicados só mudam se a fonte responder com uma lista válida.</p>';
 }
 
 // Callback para renderizar o campo de URL do endpoint de indicadores
 function callback_campo_indicadores_endpoint_url() {
     $url_endpoint = get_option('indicadores_endpoint_url');
-    echo '<input type="text" id="indicadores_endpoint_url" name="indicadores_endpoint_url" value="' . esc_attr($url_endpoint) . '" />';
+
+    if (defined('AMA_SELO_FONTE_URL') && AMA_SELO_FONTE_URL) {
+        echo '<p>Definido no <code>wp-config.php</code> (AMA_SELO_FONTE_URL); este campo é ignorado.</p>';
+    }
+
+    echo '<input type="url" class="regular-text" id="indicadores_endpoint_url" name="indicadores_endpoint_url" value="' . esc_attr($url_endpoint) . '" />';
+
+    $protecoes = [];
+    if (defined('AMA_SELO_FONTE_TOKEN') && AMA_SELO_FONTE_TOKEN) {
+        $protecoes[] = 'token de acesso';
+    }
+    if (defined('AMA_SELO_FONTE_SEGREDO') && AMA_SELO_FONTE_SEGREDO) {
+        $protecoes[] = 'assinatura HMAC';
+    }
+    if (defined('AMA_SELO_FONTE_HOSTS') && AMA_SELO_FONTE_HOSTS) {
+        $protecoes[] = 'anfitriões autorizados';
+    }
+    echo '<p class="description">Só HTTPS. Proteções ativas (as mesmas para as duas fontes): ' . esc_html($protecoes ? implode(', ', $protecoes) : 'nenhuma (ver docs/sincronizacao-selos.md)') . '.</p>';
+}
+
+/**
+ * Campo do endereço da fonte das aplicações móveis.
+ *
+ * @return void
+ */
+function ama_selo_campo_fonte_apps_url(): void
+{
+    if (defined('AMA_SELO_FONTE_APPS_URL') && AMA_SELO_FONTE_APPS_URL) {
+        echo '<p>Definido no <code>wp-config.php</code> (AMA_SELO_FONTE_APPS_URL); este campo é ignorado.</p>';
+    }
+
+    echo '<input type="url" class="regular-text" id="ama_selo_fonte_apps_url" name="ama_selo_fonte_apps_url" value="' . esc_attr(get_option('ama_selo_fonte_apps_url')) . '" />';
+    echo '<p class="description">Mesma estrutura do JSON dos sítios web. Vazio = as aplicações publicadas não são alteradas.</p>';
 }
 
 /**
@@ -201,10 +292,7 @@ function callback_campo_indicadores_endpoint_url() {
  * @return void
  */
 function callback_campo_cron_job_date() {
-    $cron_job_date = get_option('ama_cron_job_date');
-    // Convert the date format from WordPress format to datetime-local format
-    $datetime_local_date = date('Y-m-d\TH:i', strtotime($cron_job_date));
-    echo '<input type="datetime-local" id="ama_cron_job_date" name="ama_cron_job_date" value="' . esc_attr($datetime_local_date) . '">';
+    echo '<input type="time" id="ama_cron_job_date" name="ama_cron_job_date" value="' . esc_attr(ama_selo_cron_hora()) . '">';
 }
 
 /**
@@ -214,7 +302,6 @@ function callback_campo_cron_job_date() {
  */
 function callback_campo_cron_job_frequency() {
     $cron_job_frequency = get_option('ama_cron_job_frequency');
-    echo '<p><'.$cron_job_frequency.'/p>';
     echo '<select id="ama_cron_job_frequency" name="ama_cron_job_frequency">
             <option value="hourly"' . selected( $cron_job_frequency, 'hourly', false ) . '>A cada hora</option>
             <option value="twicedaily"' . selected( $cron_job_frequency, 'twicedaily', false ) . '>Duas vezes por dia</option>
