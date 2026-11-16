@@ -361,3 +361,37 @@ function add_defer_attribute($tag, $handle) {
     return $tag;
 }
 add_filter('script_loader_tag', 'add_defer_attribute', 10, 2);
+
+/**
+ * Artigos relacionados (#5): da mesma categoria, mais recentes primeiro, sem o próprio;
+ * completa com os mais recentes se não houver suficientes.
+ *
+ * @param int   $post_id
+ * @param int[] $categorias
+ * @param int   $total
+ * @return WP_Post[]
+ */
+function ama_artigo_relacionados( int $post_id, array $categorias, int $total = 4 ): array
+{
+    $base = [
+        'post_type'           => 'post',
+        'post_status'         => 'publish',
+        'ignore_sticky_posts' => true,
+        'no_found_rows'       => true,
+    ];
+
+    $relacionados = $categorias ? get_posts( $base + [
+        'posts_per_page' => $total,
+        'category__in'   => array_map( 'intval', $categorias ),
+        'post__not_in'   => [ $post_id ],
+    ] ) : [];
+
+    if ( count( $relacionados ) < $total ) {
+        $relacionados = array_merge( $relacionados, get_posts( $base + [
+            'posts_per_page' => $total - count( $relacionados ),
+            'post__not_in'   => array_merge( [ $post_id ], wp_list_pluck( $relacionados, 'ID' ) ),
+        ] ) );
+    }
+
+    return $relacionados;
+}
