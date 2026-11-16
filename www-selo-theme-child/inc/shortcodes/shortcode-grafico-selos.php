@@ -2,10 +2,26 @@
 
 if(!defined('ABSPATH')) { exit; }
 
+/**
+ * Gráfico (e tabela equivalente) do número de selos de um tipo de plataforma.
+ *
+ * [grafico-selos]                         sítios web
+ * [grafico-selos tipo="aplicacao_movel"]  aplicações móveis
+ *
+ * Os números vêm da tabela sincronizada (#6); os atributos ouro/prata/bronze
+ * continuam a permitir valores fixos. Pode haver vários gráficos na mesma página.
+ *
+ * @param array|string $attrs
+ * @return string|null
+ */
 function grafico_selos_cb( $attrs ): ?string {
+
+    static $instancia = 0;
+    $instancia++;
 
     $attrs = shortcode_atts(
         [
+            "tipo"          => AMA_SELO_TIPO_SITIO_WEB,
             "ouro"          => '',
             "prata"         => '',
             "bronze"        => '',
@@ -14,94 +30,96 @@ function grafico_selos_cb( $attrs ): ?string {
         $attrs
     );
 
-    $output = '';
+    $tipo = ama_selo_normalizar_tipo( $attrs['tipo'] );
+    $app  = AMA_SELO_TIPO_APP === $tipo;
 
-    $aria_label = '';
-    $ouro = "";
-    $prata = "";
-    $bronze = "";
+    $numeros = [];
+    foreach ( [ 'ouro', 'prata', 'bronze' ] as $selo ) {
+        $numeros[ $selo ] = '' !== $attrs[ $selo ]
+            ? absint( $attrs[ $selo ] )
+            : (int) numero_sitios_web_com_selo( $selo, $tipo );
+    }
+    $total = array_sum( $numeros );
 
-    
-    if (!empty($attrs['ouro'])) {
-        $ouro = $attrs['ouro'];
+    // Ex.: "1 aplicação móvel com Selo", "151 sítios web com Selo".
+    if ( $app ) {
+        $nome_plataforma = 1 === $total ? 'aplicação móvel' : 'aplicações móveis';
     } else {
-        $ouro = numero_sitios_web_com_selo("ouro");
+        $nome_plataforma = 1 === $total ? 'sítio web' : 'sítios web';
     }
+    $titulo  = sprintf( '%d %s com Selo', $total, $nome_plataforma );
+    $eixo    = $app ? 'Número de aplicações móveis com Selo' : 'Número de sítios web com Selo';
+    $legenda = $app ? 'Número de aplicações móveis com selo, por tipo de selo' : 'Número de sítios web com selo, por tipo de selo';
 
-    if (!empty($attrs['prata'])) {
-        $prata = $attrs['prata'];
-    } else {
-        $prata = numero_sitios_web_com_selo("prata");
-    }
-
-    if (!empty($attrs['bronze'])) {
-        $bronze = $attrs['bronze'];
-    } else {
-        $bronze = numero_sitios_web_com_selo("bronze");
-    }
-
-    if (empty($attrs['aria-label'])) {
-        $aria_label = "%s sítios web com Selo de Usabilidade e Acessibilidade.";
-    }
+    $aria_label = '' !== $attrs['aria-label']
+        ? $attrs['aria-label']
+        : sprintf(
+            'Gráfico: %s. Ouro: %d, Prata: %d, Bronze: %d.',
+            $titulo,
+            $numeros['ouro'],
+            $numeros['prata'],
+            $numeros['bronze']
+        );
 
     wp_enqueue_script(
-        'chartJS', 
-        'https://cdn.jsdelivr.net/npm/chart.js', 
-        [], 
-        null, 
+        'chartJS',
+        'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js',
+        [],
+        '4.4.1',
         true
     );
 
     wp_enqueue_script(
         'grafico-selos',
         get_stylesheet_directory_uri() . '/assets/js/grafico-selos.js',
-        ['jquery', 'chartJS'],
-        "1.1",
+        ['chartJS'],
+        filemtime( get_stylesheet_directory() . '/assets/js/grafico-selos.js' ),
         true
     );
 
-    $chart_data = [
-        'selosOuro'     => $ouro,
-        'selosPrata'    => $prata, 
-        'selosBronze'   => $bronze, 
-        'totalSelos'    => $ouro + $prata + $bronze,
-    ];
+    $id = 'grafico-selos-' . $instancia;
 
-    $aria_label = sprintf($aria_label, $chart_data['totalSelos']);
-    
-    wp_localize_script('grafico-selos', 'chartData', $chart_data);
+    $output  = '<div class="grafico-selos-container grafico-selos--' . esc_attr( $tipo ) . '">';
 
-    $output .= '<div class="grafico-selos-container">';
-    
-    // Accessible Tabs
+    // Separadores acessíveis (comportamento em assets/js/tabs.js).
     $output .= '<div class="grafico-selos-tabs">';
-    $output .= '<div role="tablist" aria-label="Visualização de dados dos selos" class="tabs-list">';
-    $output .= '<button role="tab" id="tab-grafico" aria-selected="true" aria-controls="panel-grafico" tabindex="0" class="tab-button active">Gráfico</button>';
-    $output .= '<button role="tab" id="tab-tabela" aria-selected="false" aria-controls="panel-tabela" tabindex="-1" class="tab-button">Tabela</button>';
+    $output .= '<div role="tablist" aria-label="' . esc_attr( 'Visualização de dados: ' . $titulo ) . '" class="tabs-list">';
+    $output .= '<button type="button" role="tab" id="' . $id . '-tab-grafico" aria-selected="true" aria-controls="' . $id . '-grafico" tabindex="0" class="tab-button active">Gráfico</button>';
+    $output .= '<button type="button" role="tab" id="' . $id . '-tab-tabela" aria-selected="false" aria-controls="' . $id . '-tabela" tabindex="-1" class="tab-button">Tabela</button>';
     $output .= '</div>';
-    
-    // Chart Panel (Visible by default)
-    $output .= '<div role="tabpanel" id="panel-grafico" aria-labelledby="tab-grafico" tabindex="0" class="tab-panel">';
-    $output .= '<div id="canva-wrapper" style="width: 100%; max-width: 540px;">';
-    $output .= '<canvas id="graficoSelos" width="540" height="540" role="img" aria-label="Gráfico do número de sítios web com selo. Para mais detalhes selecionar o separador tabela."></canvas>';
+
+    // Gráfico (visível por omissão).
+    $output .= '<div role="tabpanel" id="' . $id . '-grafico" aria-labelledby="' . $id . '-tab-grafico" tabindex="0" class="tab-panel">';
+    $output .= '<div class="grafico-selos-canvas">';
+    $output .= sprintf(
+        '<canvas id="%s-canvas" role="img" aria-label="%s" data-titulo="%s" data-eixo="%s" data-ouro="%d" data-prata="%d" data-bronze="%d"></canvas>',
+        esc_attr( $id ),
+        esc_attr( $aria_label ),
+        esc_attr( $titulo ),
+        esc_attr( $eixo ),
+        $numeros['ouro'],
+        $numeros['prata'],
+        $numeros['bronze']
+    );
     $output .= '</div>';
     $output .= '</div>';
-    
-    // Table Panel (Hidden by default)
-    $output .= '<div role="tabpanel" id="panel-tabela" aria-labelledby="tab-tabela" tabindex="0" class="tab-panel" hidden>';
+
+    // Tabela equivalente.
+    $output .= '<div role="tabpanel" id="' . $id . '-tabela" aria-labelledby="' . $id . '-tab-tabela" tabindex="0" class="tab-panel" hidden>';
     $output .= '<table class="ama table">';
-    $output .= '<caption>Número de sítios web com selo</caption>';
+    $output .= '<caption>' . esc_html( $legenda ) . '</caption>';
     $output .= '<thead><tr><th scope="col">Tipo de Selo</th><th scope="col">Quantidade</th></tr></thead>';
     $output .= '<tbody>';
-    $output .= '<tr><td>Ouro</td><td>' . $ouro . '</td></tr>';
-    $output .= '<tr><td>Prata</td><td>' . $prata . '</td></tr>';
-    $output .= '<tr><td>Bronze</td><td>' . $bronze . '</td></tr>';
+    $output .= '<tr><th scope="row">Ouro</th><td>' . $numeros['ouro'] . '</td></tr>';
+    $output .= '<tr><th scope="row">Prata</th><td>' . $numeros['prata'] . '</td></tr>';
+    $output .= '<tr><th scope="row">Bronze</th><td>' . $numeros['bronze'] . '</td></tr>';
     $output .= '</tbody>';
+    $output .= '<tfoot><tr><th scope="row">Total</th><td>' . $total . '</td></tr></tfoot>';
     $output .= '</table>';
     $output .= '</div>';
-    
-    $output .= '</div>'; // Close tabs
-    $output .= '</div>'; // Close container
+
+    $output .= '</div>'; // .grafico-selos-tabs
+    $output .= '</div>'; // .grafico-selos-container
 
     return $output;
 }

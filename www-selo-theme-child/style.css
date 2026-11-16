@@ -438,22 +438,22 @@ a.post-card-wrapper {
   padding-top: 5px;
 }
 
-#canva-wrapper #graficoSelos {
+/* Gráficos do número de selos ([grafico-selos]) */
+.grafico-selos-canvas {
+  position: relative;
   width: 100%;
-  max-width: 540px;
-  min-height: 540px;
+  height: 300px;
 }
 
-@media screen and (max-width: 991px) {
-  #canva-wrapper {
-    margin-bottom: 10px !important;
+/* Homepage: "O Selo em números" — descrição + gráfico dos sítios web + gráfico das apps */
+.selo-numeros .wp-block-column {
+  min-width: 0;
+}
+
+@media screen and (max-width: 781px) {
+  .selo-numeros .grafico-selos-container {
+    margin-top: 1.5rem;
   }
-}
-
-#canva-wrapper #graficoSelos {
-  width: 100%;
-  max-width: 450px;
-  min-height: 300px;
 }
 
 /*Changes EA*/
@@ -486,10 +486,6 @@ a.post-card-wrapper {
 
 .dark-theme #frm_desc_field_hwkcj {
   color: #fff !important;
-}
-
-#canva-wrapper {
-  margin-bottom: 10px;
 }
 
 /* Grafico Selos Table Styles */
