@@ -13,15 +13,13 @@ defined('ABSPATH') || exit;
 	<link rel="icon" type="image/x-icon" href="<?= get_stylesheet_directory_uri() ?>/img/favicon.ico">
 	<?php
 
-	$AI_Agent = get_option("ai_agent");
-
-	if (!empty($AI_Agent)) {
-		echo $AI_Agent;
-	}
+	// Assistente virtual: só scripts HTTPS de domínios autorizados (ver ama_ai_agent_markup).
+	echo ama_ai_agent_markup();
 	wp_head(); ?>
 </head>
 
 <body <?php body_class(); ?>>
+	<?php wp_body_open(); ?>
 	<header id="wrapper-navbar" aria-label="Cabeçalho da página do <?= get_bloginfo('name') ?>">
 		<div class="skip-to-content">
 			<div class="container">
