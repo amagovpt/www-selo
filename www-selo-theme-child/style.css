@@ -691,3 +691,60 @@ html {
   color: var(--quinary, #b6dcf6);
   border-bottom-color: var(--quinary, #b6dcf6);
 }
+
+/* Lista de sítios web e aplicações móveis com Selo (#8) */
+/* position: relative prende os textos .visually-hidden (posição absoluta) dentro da área
+   com scroll horizontal; sem isto a página inteira ganhava scroll horizontal no telemóvel. */
+.lista-selos {
+  position: relative;
+}
+
+.lista-selos table.ama.table tbody th {
+  padding: 1em;
+  line-height: 1.5;
+  font-weight: 400;
+  text-align: left;
+  vertical-align: middle;
+  color: #333;
+}
+
+.lista-selos table.ama.table tr:hover th {
+  background-color: #f1f1f1;
+}
+
+.dark-theme .lista-selos table.ama.table tbody th {
+  color: #fff;
+}
+
+.dark-theme .lista-selos table.ama.table tr:hover th {
+  background-color: #20242c;
+}
+
+.lista-selos thead a.ordenar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  white-space: nowrap;
+}
+
+.lista-selos thead a.ordenar:hover,
+.lista-selos thead a.ordenar.ativa {
+  text-decoration-thickness: 2px;
+}
+
+.lista-selos thead a.ordenar:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.lista-selos .ordenar-icone {
+  font-size: 0.75em;
+}
+
+.lista-selos time,
+.lista-selos td:nth-child(2) {
+  white-space: nowrap;
+}

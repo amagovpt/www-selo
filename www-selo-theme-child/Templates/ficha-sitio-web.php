@@ -12,7 +12,10 @@ if(!is_numeric($site_id) || $site_id === '') {
     $site_id = "1";
 }
 
-$sitio = dados_site_por_id($site_id);
+// As apps levam "tipo=app" no endereço (os ids repetem-se entre sítios web e apps).
+$tipo_plataforma = ( 'app' === sanitize_key( $_GET['tipo'] ?? '' ) ) ? AMA_SELO_TIPO_APP : AMA_SELO_TIPO_SITIO_WEB;
+
+$sitio = dados_site_por_id($site_id, $tipo_plataforma);
 
 // Folha de estilos
 wp_enqueue_style(

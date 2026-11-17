@@ -481,7 +481,8 @@ function atualizar_tabela_com_dados_observatorio()
 /**
  * Devolve todos os dados da tabela "sitios_web_com_selo".
  *
- * @param array $args resultados + pagina (paginação) e tipo (AMA_SELO_TIPO_*).
+ * @param array $args resultados + pagina (paginação), tipo (AMA_SELO_TIPO_*),
+ *                    ordenar (nome, tipo, selo, data_declaracao) e sentido (asc, desc).
  * @return array|WP_Error Um array que contém os dados da tabela, ou um WP_Error em caso de erro.
  */
 function dados_sitios_web( array $args = [])
@@ -496,7 +497,7 @@ function dados_sitios_web( array $args = [])
         $query .= $wpdb->prepare( ' AND `tipo` = %s', ama_selo_normalizar_tipo( $args['tipo'] ) );
     }
 
-    $query .= " ORDER BY FIELD(selo, 'Ouro', 'Prata', 'Bronze'), name ASC";
+    $query .= ' ORDER BY ' . ama_selo_ordem_sql( $args['ordenar'] ?? '', $args['sentido'] ?? '' );
 
     if ( isset( $args['resultados'], $args['pagina'] ) ) {
         $resultados = max( 1, absint( $args['resultados'] ) );
@@ -510,6 +511,35 @@ function dados_sitios_web( array $args = [])
     }
 
     return $results;
+}
+
+/**
+ * Cláusula ORDER BY para a lista (só colunas e sentidos conhecidos: nada vem do pedido sem filtro).
+ *
+ * Sem ordenação pedida: Ouro, Prata, Bronze e depois o nome.
+ *
+ * @param string $ordenar nome, tipo, selo ou data_declaracao.
+ * @param string $sentido asc ou desc.
+ * @return string
+ */
+function ama_selo_ordem_sql( string $ordenar = '', string $sentido = '' ): string
+{
+    $desc = 'desc' === strtolower( $sentido ) ? 'DESC' : 'ASC';
+
+    switch ( $ordenar ) {
+        case 'nome':
+            return "name $desc";
+        case 'tipo':
+            return "tipo $desc, name ASC";
+        case 'selo':
+            // Ascendente = do selo mais alto para o mais baixo (Ouro, Prata, Bronze).
+            return "FIELD(selo, 'Ouro', 'Prata', 'Bronze') $desc, name ASC";
+        case 'data_declaracao':
+            // Sem data ("nd") fica sempre no fim.
+            return "data_declaracao = '0000-00-00 00:00:00' ASC, data_declaracao $desc, name ASC";
+        default:
+            return "FIELD(selo, 'Ouro', 'Prata', 'Bronze'), name ASC";
+    }
 }
 
 /**
@@ -617,4 +647,30 @@ function ama_selo_data_extenso( int $timestamp ): string
         mb_strtolower( wp_date( 'F', $timestamp ) ),
         wp_date( 'Y', $timestamp )
     );
+}
+
+/**
+ * Endereço da ficha de um sítio web ou aplicação móvel.
+ *
+ * As apps levam "tipo=app" porque os ids repetem-se entre sítios web e apps.
+ *
+ * @param array $item Linha da tabela (id, tipo).
+ * @return string
+ */
+function ama_selo_url_ficha( array $item ): string
+{
+    /**
+     * ID da página com o template "Ficha do sítio web".
+     *
+     * @param int $pagina_id
+     */
+    $pagina_id = (int) apply_filters( 'ama_selo_pagina_ficha', 1062 );
+
+    $args = [ 'idsitio' => (int) $item['id'] ];
+
+    if ( AMA_SELO_TIPO_APP === ( $item['tipo'] ?? '' ) ) {
+        $args['tipo'] = 'app';
+    }
+
+    return add_query_arg( $args, trailingslashit( get_permalink( $pagina_id ) ) );
 }
