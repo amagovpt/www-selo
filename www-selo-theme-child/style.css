@@ -19,29 +19,24 @@ a.post-card-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: border 0.1s ease;
-  border: 3px solid transparent;
+  transition: border-color 0.1s ease;
+  /* Contorno forte, como as "call to action" do acessibilidade.gov.pt (issue #10). */
+  border: 5px solid #000;
   position: relative;
 }
 
-.post-card:hover {
-  border: 3px solid var(--primary);
+.post-card:hover,
+.post-card:focus-within {
+  border-color: var(--primary);
 }
 
-.dark-theme .post-card:hover {
-  border: 3px solid var(--quaternary);
+.dark-theme .post-card {
+  border-color: var(--quinary);
 }
 
-.post-card-wrapper:not(:last-child)::before {
-  content: "";
-  display: block;
-  height: auto;
-  width: 2px;
-  background-color: #000;
-  position: absolute;
-  top: 0;
-  right: -23px;
-  bottom: 0;
+.dark-theme .post-card:hover,
+.dark-theme .post-card:focus-within {
+  border-color: var(--quaternary);
 }
 
 .dark-theme .post-card {
@@ -58,7 +53,17 @@ a.post-card-wrapper {
   width: 100%;
   object-fit: cover;
   object-position: center;
-  border: 1px solid var(--prata);
+  border-bottom: 1px solid var(--prata);
+}
+
+/* Cartão de notícia sem imagem destacada: fundo neutro em vez de imagem partida. */
+.post-card > .post-thumbnail--vazia {
+  background-color: var(--lilas-gelo, #eef0fb);
+  border-bottom: 1px solid var(--prata);
+}
+
+.dark-theme .post-card > .post-thumbnail--vazia {
+  background-color: var(--body-dark);
 }
 
 .post-card > .post-body {
@@ -165,6 +170,14 @@ a.post-card-wrapper {
   }
 }
 
+/* Cabeçalho (issue #2): mais espaço entre o menu/botão "Pesquisar" e a linha de baixo,
+   no ecrã largo. 20px, como no acessibilidade.gov.pt. */
+@media (min-width: 992px) {
+  .navigation .container {
+    padding-bottom: 1.25rem;
+  }
+}
+
 .facilitadores-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -250,22 +263,6 @@ a.post-card-wrapper {
     gap: 1.5rem;
   }
 
-  .post-card-wrapper:not(:first-child)::before {
-    content: "";
-    display: block;
-    height: 2px;
-    width: 100%;
-    background-color: #8d8d8e;
-    position: absolute;
-    top: -23px;
-    right: 0;
-    bottom: 0;
-  }
-
-  .post-card-wrapper:first-child::before {
-    content: "";
-    background: none;
-  }
 }
 
 @media only screen and (max-width: 991.98px) {

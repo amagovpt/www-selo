@@ -1,0 +1,84 @@
+/* Artigos do blogue (#5) — como os artigos do acessibilidade.gov.pt.
+   Cabeçalho branco: os artigos não usam a faixa azul das páginas (#3). */
+
+.artigo .page-header {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: 0;
+  background-color: transparent;
+}
+
+.artigo .page-content {
+  padding-top: 40px;
+}
+
+.artigo article h1 {
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+a.version {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  color: #fff;
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 700;
+  text-decoration: none;
+  background-color: var(--primary);
+}
+
+a.version:hover,
+a.version:focus {
+  background-color: var(--quinary);
+  color: #000;
+}
+
+.dark-theme a.version {
+  background-color: var(--quinary);
+  color: #000;
+}
+
+.dark-theme a.version:hover,
+.dark-theme a.version:focus {
+  background-color: var(--primary);
+  color: #fff;
+}
+
+.post.featured-image {
+  text-align: center;
+  margin: 1.5rem 0;
+}
+
+.post.featured-image img {
+  max-width: 100%;
+  height: auto;
+}
+
+.artigo aside .sidebar {
+  margin-top: 2rem;
+}
+
+@media (min-width: 768px) {
+  .artigo aside .sidebar {
+    margin-top: 0;
+  }
+}
+
+.post-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.post-navigation .artigo-anterior {
+  text-align: left;
+}
+
+.post-navigation .artigo-seguinte {
+  margin-left: auto;
+  text-align: right;
+}

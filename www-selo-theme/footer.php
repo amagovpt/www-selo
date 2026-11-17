@@ -21,6 +21,9 @@ defined( 'ABSPATH' ) || exit;
         <div class="footer-logos">
             <?php dynamic_sidebar( 'Footer' ); ?>
         </div>
+        <?php if ( function_exists( 'ama_cookie_settings_button' ) ) : ?>
+            <p class="mt-3"><?= ama_cookie_settings_button() ?></p>
+        <?php endif; ?>
 
         <div class="logo-selo">
             <img src="<?php echo get_template_directory_uri() . '/img/selo-ouro.svg'; ?>" alt="Selo Ouro de Usabilidade e Acessibilidade">
