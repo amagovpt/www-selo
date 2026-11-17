@@ -57,6 +57,8 @@
                     },
                     y: {
                         ticks: {
+                            // Mostra sempre os 3 rótulos (Ouro, Prata, Bronze).
+                            autoSkip: false,
                             color: getTextColor(),
                             font: { family: 'Noto Sans', size: 14 }
                         }
