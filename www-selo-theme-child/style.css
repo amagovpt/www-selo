@@ -165,6 +165,14 @@ a.post-card-wrapper {
   }
 }
 
+/* Cabeçalho (issue #2): mais espaço entre o menu/botão "Pesquisar" e a linha de baixo,
+   no ecrã largo. 20px, como no acessibilidade.gov.pt. */
+@media (min-width: 992px) {
+  .navigation .container {
+    padding-bottom: 1.25rem;
+  }
+}
+
 .facilitadores-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
