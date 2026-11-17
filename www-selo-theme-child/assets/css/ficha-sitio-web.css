@@ -102,3 +102,121 @@
         text-align: right;
     }
 }
+/* Ficha com aspeto de cartão de identificação (#9) */
+.cartao-selo {
+    display: grid;
+    grid-template-columns: minmax(180px, 240px) 1fr;
+    max-width: 960px;
+    margin: 0 auto;
+    border: 3px solid #333;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.12);
+}
+
+.cartao-selo__selo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 2rem 1.5rem;
+    border-right: 3px solid #333;
+    background-color: #f3f3f3;
+}
+
+.cartao-selo--ouro .cartao-selo__selo {
+    background-color: #fdf1d6;
+}
+
+.cartao-selo--prata .cartao-selo__selo {
+    background-color: #ececec;
+}
+
+.cartao-selo--bronze .cartao-selo__selo {
+    background-color: #f4e4dc;
+}
+
+.cartao-selo__selo img {
+    width: 100%;
+    max-width: 160px;
+    height: auto;
+}
+
+.cartao-selo__nivel {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1.125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #333;
+}
+
+.cartao-selo__dados {
+    margin: 0;
+    padding: 2rem 2.5rem;
+}
+
+.cartao-selo__dados > div {
+    display: grid;
+    grid-template-columns: minmax(10rem, 16rem) 1fr;
+    column-gap: 1rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #d6d6d6;
+}
+
+.cartao-selo__dados > div:last-child {
+    border-bottom: 0;
+}
+
+.cartao-selo__dados dt {
+    font-weight: 700;
+}
+
+.cartao-selo__dados dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.dark-theme .cartao-selo {
+    border-color: var(--quinary, #b6dcf6);
+    background-color: var(--body-dark);
+}
+
+.dark-theme .cartao-selo__selo {
+    border-color: var(--quinary, #b6dcf6);
+    background-color: var(--body-lighter-dark);
+}
+
+.dark-theme .cartao-selo__nivel {
+    color: #fff;
+}
+
+.dark-theme .cartao-selo__dados > div {
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+@media (max-width: 767px) {
+    .cartao-selo {
+        grid-template-columns: 1fr;
+    }
+
+    .cartao-selo__selo {
+        border-right: 0;
+        border-bottom: 3px solid #333;
+        padding: 1.5rem;
+    }
+
+    .cartao-selo__selo img {
+        max-width: 110px;
+    }
+
+    .cartao-selo__dados {
+        padding: 1.25rem 1.5rem;
+    }
+
+    .cartao-selo__dados > div {
+        grid-template-columns: 1fr;
+    }
+}
