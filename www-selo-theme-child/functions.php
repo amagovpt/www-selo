@@ -15,14 +15,16 @@ function child_theme_enqueue_stylesheet(): void
         'parent-style',
         get_template_directory_uri() . '/style.css',
         '',
-        '1.0.1',
+        filemtime( get_template_directory() . '/style.css' ),
     );
 
     wp_enqueue_style(
         'www-a11y-theme-child-style',
         get_stylesheet_uri(),
         ['parent-style'],
-        '1.0.1',
+        // Versão pela data do ficheiro: com uma versão fixa, o CSS antigo
+        // continua em cache depois de um deploy.
+        filemtime( get_stylesheet_directory() . '/style.css' ),
     );
 
     // grafico-selos.js é carregado só pelo shortcode [grafico-selos].
