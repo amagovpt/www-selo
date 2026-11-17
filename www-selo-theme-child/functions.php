@@ -79,6 +79,9 @@ add_action('send_headers', 'ama_habilita_header_HSTS_cb');
  */
 require_once get_stylesheet_directory() . '/inc/cron/index.php';
 
+// Consentimento de cookies (mesma implementação do acessibilidade.gov.pt)
+require_once get_stylesheet_directory() . '/inc/cookie-consent.php';
+
 /**
  * Torna a paginação do WordPress acessível.
  *
