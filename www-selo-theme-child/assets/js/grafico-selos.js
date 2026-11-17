@@ -1,159 +1,106 @@
-jQuery(document).ready(function() {
-    const ctx = document.getElementById('graficoSelos').getContext('2d');
-    const body = document.querySelector('body');
+/**
+ * Gráficos do número de selos (shortcode [grafico-selos]).
+ *
+ * Desenha um gráfico por cada canvas com dados em atributos data-*,
+ * por isso podem existir vários gráficos na mesma página (sítios web e apps).
+ * Os separadores Gráfico/Tabela são tratados por tabs.js.
+ */
+(function () {
+    'use strict';
 
+    const body = document.body;
     const getTextColor = () => body.classList.contains('dark-theme') ? '#FFF' : '#000';
+    const charts = [];
 
-    const data = {
-        labels: ['Selos Ouro', 'Selos Prata', 'Selos Bronze'],
-        datasets: [{
-            label: 'Número de sítios web com Selo',
-            data: [chartData.selosOuro, chartData.selosPrata, chartData.selosBronze],
-            backgroundColor: ['#f0a502', '#ADADAD', '#A56140'],
-            maxBarThickness: 70
-        }]
-    };
+    function desenhar(canvas) {
+        const d = canvas.dataset;
 
-    const options = {
-        indexAxis: 'y',
-        responsive: true,
-        plugins: {
-            legend: {
-                display: false
+        const chart = new Chart(canvas.getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['Ouro', 'Prata', 'Bronze'],
+                datasets: [{
+                    label: d.eixo,
+                    data: [Number(d.ouro), Number(d.prata), Number(d.bronze)],
+                    backgroundColor: ['#f0a502', '#ADADAD', '#A56140'],
+                    maxBarThickness: 70
+                }]
             },
-            title: {
-                display: true,
-                text: chartData.totalSelos + ' sítios web com Selo',
-                color: getTextColor(),
-                font: {
-                    family: 'Noto Sans',
-                    size: 28
-                },
-                align: 'center'
-            }
-        },
-        scales: {
-            x: {
-                title: {
-                    display: true,
-                    text: 'Número de sítios web com Selo',
-                    color: getTextColor(),
-                    font: {
-                        family: 'Noto Sans',
-                        size: 16
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    title: {
+                        display: true,
+                        text: d.titulo,
+                        color: getTextColor(),
+                        font: { family: 'Noto Sans', size: 22 },
+                        align: 'center'
                     }
                 },
-                ticks: {
-                    color: getTextColor(),
-                    font: {
-                        family: 'Noto Sans',
-                        size: 14
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: d.eixo,
+                            color: getTextColor(),
+                            font: { family: 'Noto Sans', size: 14 }
+                        },
+                        ticks: {
+                            color: getTextColor(),
+                            precision: 0,
+                            font: { family: 'Noto Sans', size: 14 }
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: getTextColor(),
+                            font: { family: 'Noto Sans', size: 14 }
+                        }
                     }
                 }
-            },
-            y: {
-                title: {
-                    display: true,
-                    color: getTextColor(),
-                },
-                ticks: {
-                    color: getTextColor(),
-                    font: {
-                        family: 'Noto Sans',
-                        size: 14
-                    }
-                },
             }
-        }
-    };
-
-    const chart = new Chart(ctx, {
-        type: 'bar',
-        data: data,
-        options: options
-    });
-
-    const observer = new MutationObserver(() => {
-        const textColor = getTextColor();
-        chart.options.plugins.title.color = textColor;
-        chart.options.scales.x.title.color = textColor;
-        chart.options.scales.x.ticks.color = textColor;
-        chart.options.scales.y.ticks.color = textColor;
-        chart.options.scales.y.title.color = textColor;
-        chart.update();
-    });
-
-    observer.observe(body, { attributes: true, attributeFilter: ['class'] });
-
-    // Accessible Tabs Implementation
-    const tabs = document.querySelectorAll('[role="tab"]');
-    const tabPanels = document.querySelectorAll('[role="tabpanel"]');
-
-    // Function to switch tabs
-    function switchTab(newTab) {
-        const newTabId = newTab.getAttribute('id');
-        const newPanelId = newTab.getAttribute('aria-controls');
-        const newPanel = document.getElementById(newPanelId);
-
-        // Deactivate all tabs
-        tabs.forEach(tab => {
-            tab.setAttribute('aria-selected', 'false');
-            tab.setAttribute('tabindex', '-1');
-            tab.classList.remove('active');
         });
 
-        // Hide all panels
-        tabPanels.forEach(panel => {
-            panel.setAttribute('hidden', '');
-        });
-
-        // Activate new tab
-        newTab.setAttribute('aria-selected', 'true');
-        newTab.setAttribute('tabindex', '0');
-        newTab.classList.add('active');
-        newTab.focus();
-
-        // Show new panel
-        if (newPanel) {
-            newPanel.removeAttribute('hidden');
-        }
+        charts.push(chart);
     }
 
-    // Click event for tabs
-    tabs.forEach(tab => {
-        tab.addEventListener('click', function(e) {
-            e.preventDefault();
-            switchTab(this);
+    function init() {
+        if (typeof Chart === 'undefined') {
+            return;
+        }
+
+        const canvases = document.querySelectorAll('.grafico-selos-canvas canvas[data-titulo]');
+
+        if (!canvases.length) {
+            return;
+        }
+
+        // Espera pela Noto Sans: o Chart.js mede os rótulos ao desenhar.
+        const fontes = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+        fontes.then(function () {
+            canvases.forEach(desenhar);
         });
 
-        // Keyboard navigation
-        tab.addEventListener('keydown', function(e) {
-            let targetTab = null;
+        // Modo escuro: atualiza a cor dos textos.
+        new MutationObserver(function () {
+            const cor = getTextColor();
+            charts.forEach(function (chart) {
+                chart.options.plugins.title.color = cor;
+                chart.options.scales.x.title.color = cor;
+                chart.options.scales.x.ticks.color = cor;
+                chart.options.scales.y.ticks.color = cor;
+                chart.update();
+            });
+        }).observe(body, { attributes: true, attributeFilter: ['class'] });
+    }
 
-            // Arrow keys navigation
-            if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
-                const tabsArray = Array.from(tabs);
-                const currentIndex = tabsArray.indexOf(this);
-
-                if (e.key === 'ArrowRight') {
-                    targetTab = tabsArray[(currentIndex + 1) % tabsArray.length];
-                } else {
-                    targetTab = tabsArray[(currentIndex - 1 + tabsArray.length) % tabsArray.length];
-                }
-
-                e.preventDefault();
-                switchTab(targetTab);
-            }
-
-            // Home/End keys
-            if (e.key === 'Home') {
-                e.preventDefault();
-                switchTab(tabs[0]);
-            }
-            if (e.key === 'End') {
-                e.preventDefault();
-                switchTab(tabs[tabs.length - 1]);
-            }
-        });
-    });
-});
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();
