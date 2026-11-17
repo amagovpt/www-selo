@@ -36,23 +36,22 @@ function ama_sync_dados_sitios_selo_callback(): void
 {
     // Verificar se o utilizador tem permissões para executar esta ação
     if (!current_user_can('manage_options')) {
-        wp_send_json_error('Não tem permissões para executar esta ação.');
-        wp_die();
+        wp_send_json_error('Não tem permissões para executar esta ação.', 403);
     }
 
-    // Return a response (optional)
-    $atualizacao = atualizar_tabela_com_dados_observatorio();
+    // Protege contra pedidos forjados (CSRF): o botão envia um nonce.
+    if (!check_ajax_referer('ama_selo_sincronizar', 'nonce', false)) {
+        wp_send_json_error('A sessão expirou. Recarregue a página e tente de novo.', 403);
+    }
+
+    $atualizacao = ama_selo_sincronizar('manual');
+
     if(is_wp_error($atualizacao)) {
-        wp_send_json_error($atualizacao->get_error_message());
-        wp_die();
-    } elseif ($atualizacao) {
-        wp_send_json_success('Os dados foram sincronizados com sucesso.');
-        wp_die();
+        $parcial = 'selo_parcial' === $atualizacao->get_error_code() ? 'Atualizado: ' . ama_selo_texto_resumo() . '. ' : '';
+        wp_send_json_error(esc_html($parcial . $atualizacao->get_error_message()));
     }
 
-    // Ocorreu um erro ao sincronizar os dados
-    wp_send_json_error('Ocorreu ao sincronizar os dados.');
-    wp_die();
+    wp_send_json_success(esc_html('Os dados foram sincronizados com sucesso: ' . ama_selo_texto_resumo() . '.'));
 }
 
 // Hook the function to the updated 'wp_ajax_' action for logged-in users

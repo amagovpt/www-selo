@@ -1,20 +1,29 @@
 jQuery(document).ready(function($) {
     $('#ama-sync-button').on('click', function() {
+        const $button = $(this);
+        const settings = window.amaSelo || {};
+
+        $button.prop('disabled', true);
+        $('#ama-sync-response').html(dialogBSAlert('info', settings.aguarde || '…'));
+
         $.ajax({
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'AMA_sync_dados_sitios_selo' // Updated AJAX action name
+                action: 'AMA_sync_dados_sitios_selo',
+                nonce: settings.nonce
             },
             success: function(response) {
                 let message = response.data
                 let alert = response.success ? 'success' : 'error';
                 $('#ama-sync-response').html(dialogBSAlert(alert, message));
             },
-            error: function(xhr, status, error) {
-                let message = response.data
-                let alert = response.success ? 'success' : 'error';
-                $('#ama-sync-response').html(dialogBSAlert(alert, message));
+            error: function(xhr) {
+                let message = (xhr.responseJSON && xhr.responseJSON.data) || settings.erroRede;
+                $('#ama-sync-response').html(dialogBSAlert('error', message));
+            },
+            complete: function() {
+                $button.prop('disabled', false);
             }
         });
     });
