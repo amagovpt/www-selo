@@ -8,7 +8,26 @@
    */
  
   add_filter( $block["slug"]."/frontend_allow_wrapper", "__return_false" );
-  $svg = file_get_contents($attributes["icon"]["url"]);
+  // Lê o SVG do disco (pelo ID do anexo ou pelo caminho em uploads), nunca por HTTP:
+  // um pedido HTTP bloqueia a página se o domínio guardado no URL não responder.
+  $svg = '';
+  $icon_path = '';
+  if ( ! empty( $attributes["icon"]["id"] ) ) {
+    $icon_path = get_attached_file( (int) $attributes["icon"]["id"] );
+  }
+  if ( ( ! $icon_path || ! is_readable( $icon_path ) ) && ! empty( $attributes["icon"]["url"] ) ) {
+    $uploads = wp_get_upload_dir();
+    $rel = strstr( (string) wp_parse_url( $attributes["icon"]["url"], PHP_URL_PATH ), '/wp-content/uploads/' );
+    if ( $rel ) {
+      $icon_path = $uploads['basedir'] . substr( $rel, strlen( '/wp-content/uploads' ) );
+    }
+  }
+  if ( $icon_path && is_readable( $icon_path ) && 'svg' === strtolower( pathinfo( $icon_path, PATHINFO_EXTENSION ) ) ) {
+    $real = realpath( $icon_path );
+    if ( $real && 0 === strpos( $real, realpath( wp_get_upload_dir()['basedir'] ) ) ) {
+      $svg = (string) file_get_contents( $real );
+    }
+  }
 
   $attributesOfSvg = ['stroke','fill', 'height', 'width'];
 
