@@ -17,6 +17,21 @@ function ama_scripts()
 }
 add_action('wp_enqueue_scripts', 'ama_scripts');
 
+/**
+ * Cabeçalho uniforme das páginas (template-parts/cabecalho-pagina.php, #3).
+ * Versão pela data do ficheiro, para não ficar em cache depois de uma alteração.
+ */
+function ama_cabecalho_pagina_estilos(): void
+{
+    wp_enqueue_style(
+        'ama-cabecalho-pagina',
+        get_template_directory_uri() . '/css/cabecalho-pagina.css',
+        ['ama-style'],
+        filemtime(get_template_directory() . '/css/cabecalho-pagina.css')
+    );
+}
+add_action('wp_enqueue_scripts', 'ama_cabecalho_pagina_estilos', 20);
+
 add_post_type_support('page', 'excerpt');
 
 function ama_theme_setup()

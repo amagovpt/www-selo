@@ -6,44 +6,9 @@ get_header();
 ?>
 <main class="site-main" id="main">
     <div class="wrapper" id="page-wrapper">
-        <div class="container" id="content" tabindex="-1">
-            <div class="page-header">
-                <nav aria-label="Você está aqui">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">
-                            <a href="<?php echo site_url(); ?>">Início</a>
-                        </li>
-                        <?php if ( has_post_parent() ) : ?>
-                        <?php $post_parent_id = wp_get_post_parent_id(); ?>
-                        <li class="breadcrumb-item">
-                            <a href="<?php echo get_the_permalink( $post_parent_id ); ?>"><?php echo get_the_title( $post_parent_id ); ?></a>
-                        </li>
-                        <?php endif; ?>
-                        <li class="breadcrumb-item active" aria-current="page">
-                            <?php echo the_title(); ?>
-                        </li>
-                    </ol>
-                </nav>
-                <div class="row">
-                    <div class="col-12 col-lg-8<?php echo has_excerpt() ? '' : ' align-self-end'; ?>">
-                        <h1><?php the_title(); ?></h1>
-                        <?php
-                        if ( has_excerpt() ) : ?>
-                        <div class="excerpt">
-                            <?php the_excerpt(); ?>
-                        </div>
-                        <?php endif; ?>
-                    </div>
-                    <?php
-                    if ( has_post_thumbnail() ) : ?>
-                    <div class="d-none d-lg-flex col-lg-4 d-flex justify-content-center featured-image">
-                        <div class="featured-image">
-                            <?php the_post_thumbnail(); ?>
-                        </div>
-                    </div>
-                    <?php endif; ?>
-                </div>
-            </div>
+        <div id="content" tabindex="-1">
+            <?php get_template_part( 'template-parts/cabecalho', 'pagina' ); ?>
+            <div class="container">
             <div class="page-content">
                 <?php the_content(); ?>
             </div>
@@ -73,6 +38,7 @@ get_header();
                         <p class="mb-0">Última atualização: <?php echo get_the_modified_date('j \d\e F, Y'); ?></p>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     </div>

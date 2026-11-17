@@ -20,42 +20,11 @@ if (!$__embed) {
   <main class="site-main" id="main">
     <div class="wrapper full-width-cinza" id="page-wrapper">
       <div class="container-fluid px-0" id="content" tabindex="-1">
+        <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+          <?php get_template_part( 'template-parts/cabecalho', 'pagina' ); ?>
         <div class="container">
           <div class="row">
-            <div class="page-header col">
-              <nav aria-label="Você está aqui">
-                <ol class="breadcrumb">
-                  <li class="breadcrumb-item">
-                    <a href="<?php echo esc_url(site_url()); ?>">Início</a>
-                  </li>
-                  <?php
-                  $parent_id = wp_get_post_parent_id(get_the_ID());
-                  if ($parent_id) : ?>
-                    <li class="breadcrumb-item">
-                      <a href="<?php echo esc_url(get_the_permalink($parent_id)); ?>">
-                        <?php echo esc_html(get_the_title($parent_id)); ?>
-                      </a>
-                    </li>
-                  <?php endif; ?>
-                  <li class="breadcrumb-item active" aria-current="page"><?php the_title(); ?></li>
-                </ol>
-              </nav>
-
-              <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
-                <div class="row">
-                  <div class="col-12 col-lg-8<?php echo has_excerpt() ? '' : ' align-self-end'; ?>">
-                    <h1><?php the_title(); ?></h1>
-                    <?php if (has_excerpt()) : ?>
-                      <div class="excerpt"><?php the_excerpt(); ?></div>
-                    <?php endif; ?>
-                  </div>
-                  <?php if (has_post_thumbnail()) : ?>
-                    <div class="d-none d-lg-flex col-lg-4 d-flex justify-content-center featured-image">
-                      <div class="featured-image"><?php the_post_thumbnail('full', ['loading' => 'lazy', 'decoding' => 'async']); ?></div>
-                    </div>
-                  <?php endif; ?>
-                </div>
-
+            <div class="col">
                 <div class="page-content">
                   <?php the_content(); ?>
                 </div>
@@ -75,10 +44,11 @@ if (!$__embed) {
                     </div>
                   </div>
                 </div>
-              <?php endwhile; endif; ?>
 <?php
             // fecha wrappers
-            echo '</div></div></div></div></div></main>';
+            echo '</div></div></div>';
+          endwhile; endif;
+            echo '</div></div></main>';
             get_footer();
             return;
           }
