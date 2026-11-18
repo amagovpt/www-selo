@@ -1,0 +1,82 @@
+/* AccessMonitor Call to Action c/ form to do evaluations directly */
+/* Call to Action at homepge com o mesmo estilo do acessibilidade.gov.pt   */
+/* Bloco existente na homepage ´início´ do selo.usabilidade.gov.pt */
+/* Ação do Form para ativar avaliações em https://accessmonitor.acessibilidade.gov.pt */
+
+#access {
+    background-color: var(--secondary);
+    /* padding: 3.5rem 0; */
+}
+
+.dark-theme #access {
+    background-color: var(--secondary-dark);
+}
+
+#access .icon-check-monitor.icon {
+    color: var(--primary);
+}
+
+.dark-theme #access .icon-check-monitor.icon {
+    color: var(--quinary);
+}
+
+#access .version {
+    color: white !important;
+    font-size: 16px;
+    line-height: 18px !important;
+    background-color: #333399;
+    padding: 3px 8px;
+    max-height: 26px !important;
+    margin-left: 10px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none !important;
+    font-weight: bold;
+}
+
+.dark-theme #access .version {
+    color: var(--body-dark)!important;
+    background-color:var(--quinary);
+}
+
+.img-avatar {
+    border: 20px solid white;
+    border-radius: 50%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    object-position: center;
+}
+
+.border-black.border {
+    border-color: #000 !important;
+}
+
+input[type="text"].form-control,
+input[type="email"].form-control,
+input[type="url"].form-control,
+input[type="tel"].form-control,
+input[type="number"].form-control,
+input[type="password"].form-control,
+textarea.form-control,
+select.form-control {
+    width: 100%;
+    padding: 0.5em;
+    margin: 0.5em 0;
+    border: 2px solid var(--primary);
+    border-radius: 0;
+    box-sizing: border-box;
+    font-size: 1em;
+    line-height: 1.5;
+}
+
+input[type="text"].form-control:focus,
+input[type="email"].form-control:focus,
+input[type="url"].form-control:focus,
+input[type="tel"].form-control:focus,
+input[type="number"].form-control:focus,
+input[type="password"].form-control:focus,
+textarea.form-control:focus,
+select.form-control:focus {
+    box-shadow: 0 0 0 3px var(--warning, #FFC107);
+}

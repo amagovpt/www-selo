@@ -397,3 +397,36 @@ function ama_artigo_relacionados( int $post_id, array $categorias, int $total = 
 
     return $relacionados;
 }
+
+/**
+ * AccessMonitor — recursos exclusivos da homepage.
+ */
+function selo_enqueue_accessmonitor_assets() {
+
+    // Carregar apenas na página inicial.
+    if ( ! is_front_page() ) {
+        return;
+    }
+
+    $theme_uri  = get_stylesheet_directory_uri();
+    $theme_path = get_stylesheet_directory();
+
+    // CSS.
+    wp_enqueue_style(
+        'selo-accessmonitor',
+        $theme_uri . '/assets/css/accessmonitor.css',
+        array(),
+        filemtime( $theme_path . '/assets/css/accessmonitor.css' )
+    );
+
+    // JavaScript.
+    wp_enqueue_script(
+        'selo-accessmonitor',
+        $theme_uri . '/assets/js/accessmonitor.js',
+        array(),
+        filemtime( $theme_path . '/assets/js/accessmonitor.js' ),
+        true
+    );
+
+}
+add_action( 'wp_enqueue_scripts', 'selo_enqueue_accessmonitor_assets' );
