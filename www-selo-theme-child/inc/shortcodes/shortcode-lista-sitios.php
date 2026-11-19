@@ -72,7 +72,8 @@ function ama_selo_lista_cabecalho( string $coluna, string $rotulo, string $orden
  *
  * Colunas: Nome (ligação para a ficha), Tipo, Declaração, Selo e Data da declaração.
  * Ordenação no servidor (?ordenar=nome|tipo|selo|data_declaracao&sentido=asc|desc),
- * que funciona sem JavaScript e com a paginação.
+ * que funciona sem JavaScript e com a paginação. Com JavaScript (assets/js/lista-selos.js)
+ * a tabela é atualizada sem recarregar a página, para o foco ficar no título da coluna.
  *
  * @param array|string $atts
  * @return string|null
@@ -107,14 +108,28 @@ function lista_sitios_web_selo_cb($atts) : ?string
         return '<p>' . esc_html( $sitios->get_error_message() ) . '</p>';
     }
 
-    $img = get_stylesheet_directory_uri() . '/assets/img/';
+    wp_enqueue_script(
+        'ama-lista-selos',
+        get_stylesheet_directory_uri() . '/assets/js/lista-selos.js',
+        [],
+        filemtime( get_stylesheet_directory() . '/assets/js/lista-selos.js' ),
+        true
+    );
 
-    $output  = '<div class="table-responsive lista-selos">';
+    $img    = get_stylesheet_directory_uri() . '/assets/img/';
+    $nomes  = [ 'nome' => 'nome', 'tipo' => 'tipo', 'selo' => 'selo', 'data_declaracao' => 'data da declaração' ];
+    $ordem  = 'asc' === $sentido ? 'ascendente' : 'descendente';
+
+    // Frase anunciada pelos leitores de ecrã depois de ordenar sem recarregar a página.
+    $anuncio = $ordenar ? sprintf( 'Lista ordenada por %s, ordem %s.', $nomes[ $ordenar ], $ordem ) : '';
+
+    $output  = '<div class="lista-selos-contentor" data-lista-selos>';
+    $output .= sprintf( '<p class="visually-hidden lista-selos-estado" aria-live="polite" data-anuncio="%s"></p>', esc_attr( $anuncio ) );
+    $output .= '<div class="table-responsive lista-selos">';
     $output .= '<table class="ama table">';
     $output .= '<caption>Lista de sítios web e aplicações móveis com Selo de Usabilidade e Acessibilidade';
     if ( $ordenar ) {
-        $nomes = [ 'nome' => 'nome', 'tipo' => 'tipo', 'selo' => 'selo', 'data_declaracao' => 'data da declaração' ];
-        $output .= sprintf( '<span class="visually-hidden">, ordenada por %s, ordem %s</span>', $nomes[ $ordenar ], 'asc' === $sentido ? 'ascendente' : 'descendente' );
+        $output .= sprintf( '<span class="visually-hidden">, ordenada por %s, ordem %s</span>', esc_html( $nomes[ $ordenar ] ), $ordem );
     }
     $output .= '</caption>';
     $output .= '<thead>';
@@ -150,7 +165,11 @@ function lista_sitios_web_selo_cb($atts) : ?string
     $output .= '</tbody>';
     $output .= '</table></div>';
 
+    // Contentor sempre presente, mesmo vazio, para o JavaScript poder atualizar a paginação.
+    $output .= '<div class="lista-selos-paginacao">';
     $output .= ama_selo_lista_paginacao( $total_paginas, $pagina_atual, $ordenar ? [ 'ordenar' => $ordenar, 'sentido' => $sentido ] : [] );
+    $output .= '</div>';
+    $output .= '</div>';
 
     if ( '' !== $atts['contacto'] ) {
         $email   = sanitize_email( $atts['contacto'] );
