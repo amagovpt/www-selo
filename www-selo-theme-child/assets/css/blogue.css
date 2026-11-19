@@ -49,8 +49,10 @@
   }
 }
 
-/* Lista de artigos + "Mais lidos" */
-.blogue-conteudo {
+/* Lista de artigos + "Mais lidos"
+   Prefixado com .blogue-agregador: o .row do Bootstrap (margin-top: calc(-1 * var(--bs-gutter-y)))
+   tem a mesma especificidade, é carregado depois e anulava o espaço a seguir aos cartões (#25). */
+.blogue-agregador .blogue-conteudo {
   margin-top: 4rem;
   row-gap: 2rem;
 }
