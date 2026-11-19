@@ -705,7 +705,7 @@ html {
   color: #333;
 }
 
-.lista-selos table.ama.table tr:hover th {
+.lista-selos table.ama.table tbody tr:hover th {
   background-color: #f1f1f1;
 }
 
@@ -713,7 +713,7 @@ html {
   color: #fff;
 }
 
-.dark-theme .lista-selos table.ama.table tr:hover th {
+.dark-theme .lista-selos table.ama.table tbody tr:hover th {
   background-color: #20242c;
 }
 
