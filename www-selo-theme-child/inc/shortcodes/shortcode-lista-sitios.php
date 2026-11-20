@@ -83,7 +83,6 @@ function lista_sitios_web_selo_cb($atts) : ?string
     $atts = shortcode_atts(
         [
             'resultados_pagina' => 50,
-            'contacto'          => 'selo@arte.gov.pt',
         ],
         $atts
     );
@@ -170,14 +169,6 @@ function lista_sitios_web_selo_cb($atts) : ?string
     $output .= ama_selo_lista_paginacao( $total_paginas, $pagina_atual, $ordenar ? [ 'ordenar' => $ordenar, 'sentido' => $sentido ] : [] );
     $output .= '</div>';
     $output .= '</div>';
-
-    if ( '' !== $atts['contacto'] ) {
-        $email   = sanitize_email( $atts['contacto'] );
-        $output .= sprintf(
-            '<p class="lista-selos-nota mt-4"><strong>Nota:</strong> se encontrou uma plataforma digital chancelada com o <em>Selo de Usabilidade e Acessibilidade</em> e ela não consta desta lista, por favor, envie uma mensagem para <a href="mailto:%1$s">%1$s</a>.</p>',
-            esc_html( $email )
-        );
-    }
 
     return $output;
 }
