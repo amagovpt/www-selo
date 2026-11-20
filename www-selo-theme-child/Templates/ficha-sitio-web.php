@@ -105,12 +105,13 @@ get_header();
         <div class="wrapper" id="page-wrapper">
             <div class="container-fluid p-0" id="content" tabindex="-1">
             <?php
-            get_template_part( 'template-parts/cabecalho', 'pagina', [
-                'titulo'    => 'Ficha de identificação da plataforma com Selo de Usabilidade e Acessibilidade',
-                'descricao' => '',
-                'imagem'    => '',
-                'atual'     => $encontrado ? $sitio['name'] : 'Plataforma não encontrada',
-            ] );
+            // Título, excerto e imagem destacada vêm da página no backoffice (como na Lista de Selos);
+            // no breadcrumb, a página atual é a plataforma.
+            $cabecalho = [ 'atual' => $encontrado ? $sitio['name'] : 'Plataforma não encontrada' ];
+            if ( '' === trim( get_the_title() ) ) {
+                $cabecalho['titulo'] = 'Ficha de identificação da plataforma com Selo de Usabilidade e Acessibilidade';
+            }
+            get_template_part( 'template-parts/cabecalho', 'pagina', $cabecalho );
             ?>
             <div class="page-content overflow-x-hidden">
                 <div class="container ficha mb-5">
