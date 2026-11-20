@@ -115,7 +115,7 @@ get_header();
             <div class="page-content overflow-x-hidden">
                 <div class="container ficha mb-5">
                     <?php if ( $encontrado ) : ?>
-                        <article class="cartao-selo cartao-selo--<?= esc_attr( strtolower( $selo ) ); ?>" aria-labelledby="cartao-selo-nome">
+                        <section class="cartao-selo cartao-selo--<?= esc_attr( strtolower( $selo ) ); ?>" aria-labelledby="cartao-selo-nome">
                             <div class="cartao-selo__selo">
                                 <img src="<?= esc_url( get_stylesheet_directory_uri() . '/assets/img/selo_' . strtolower( $selo ) . '.svg' ); ?>"
                                      alt="<?= esc_attr( 'Selo ' . $selo . ' de Usabilidade e Acessibilidade' ); ?>"
@@ -150,7 +150,7 @@ get_header();
                                     <dd><?= $observatorio; ?></dd>
                                 </div>
                             </dl>
-                        </article>
+                        </section>
                     <?php else : ?>
                         <h2>Plataforma não encontrada</h2>
                         <p>Não encontrámos a plataforma pedida na lista de sítios web e aplicações móveis com Selo de Usabilidade e Acessibilidade.</p>
