@@ -133,6 +133,65 @@ function ama_widgets()
 }
 add_action('widgets_init', 'ama_widgets');
 
+/**
+ * Garante que todos os títulos h2/h3 do conteúdo têm atributo id,
+ * para que os shortcodes [indice] e [indice_2lvls] possam criar links.
+ *
+ * Os ids existentes são mantidos; os que faltam são gerados a partir do
+ * texto do título (ex.: "Artigo 1.º" -> "artigo-1-o"), sem repetições.
+ *
+ * @param string $content HTML do conteúdo.
+ * @return string
+ */
+function ama_indice_adicionar_ids($content)
+{
+    if (!is_string($content) || stripos($content, '<h') === false) {
+        return $content;
+    }
+
+    preg_match_all('@<h[23][^>]*\sid=[\'"](.*?)[\'"]@i', $content, $existentes);
+    $usados = array_fill_keys($existentes[1], true);
+
+    return preg_replace_callback(
+        '@<h([23])((?:\s[^>]*)?)>(.*?)</h\1>@is',
+        function ($m) use (&$usados) {
+            if (preg_match('@\sid=@i', $m[2])) {
+                return $m[0];
+            }
+
+            $base = sanitize_title(wp_strip_all_tags($m[3]));
+            if ($base === '') {
+                $base = 'seccao';
+            }
+
+            $id = $base;
+            $n  = 2;
+            while (isset($usados[$id])) {
+                $id = $base . '-' . $n++;
+            }
+            $usados[$id] = true;
+
+            return '<h' . $m[1] . $m[2] . ' id="' . esc_attr($id) . '">' . $m[3] . '</h' . $m[1] . '>';
+        },
+        $content
+    );
+}
+
+/**
+ * Aplica os ids aos títulos apenas nas páginas/artigos que usam um índice.
+ * Prioridade 10: depois de do_blocks (9) e antes de do_shortcode (11),
+ * para não mexer no h2 "Índice de conteúdos" gerado pelo próprio shortcode.
+ */
+function ama_indice_filtro_conteudo($content)
+{
+    $post = get_post();
+    if ($post && (has_shortcode($post->post_content, 'indice') || has_shortcode($post->post_content, 'indice_2lvls'))) {
+        $content = ama_indice_adicionar_ids($content);
+    }
+    return $content;
+}
+add_filter('the_content', 'ama_indice_filtro_conteudo', 10);
+
 function ama_index_menu($atts = array())
 {
     $atts = array_change_key_case((array) $atts, CASE_LOWER);
@@ -144,33 +203,30 @@ function ama_index_menu($atts = array())
         $atts
     );
 
-    $content = get_the_content();
-    //$count = substr_count( $content, '<h2 id="');
-    $count = substr_count($content, '<h2 ');
+    $content = ama_indice_adicionar_ids(get_the_content());
 
-    $menu = '';
+    // h2 com id definido (os que faltam são gerados por ama_indice_adicionar_ids)
+    preg_match_all('@<h2[^>]*\sid=[\'"](.*?)[\'"][^>]*>(.*?)<\/h2>@is', $content, $matches);
+    $hrefs      = $matches[1];
+    $headings   = $matches[2];
 
-    if ($count > 0) {
-        $menu .= '<div class="sidebar-menu">';
-        $menu .= '<h2>Índice de conteúdos</h2>';
-
-        // Check h2 elements with an ID set
-        preg_match_all('@<h2[^>]*id=[\'"](.*?)[\'"][^>]*>(.*?)<\/h2>@i', $content, $matches);
-        $hrefs      = $matches[1];
-        $headings   = $matches[2];
-
-
-        $class = $shortcode_atts['esconder_numeracao'] ? ' class="hide-bullets"' : '';
-
-        $menu .= '<ol' . $class . '>';
-
-        for ($i = 0; $i < count($headings); $i++) {
-            $menu .= '<li><a href="#' . $hrefs[$i] . '">' . $headings[$i] . '</a></li>';
-        }
-
-        $menu .= '</ol>';
-        $menu .= '</div>';
+    // Sem títulos para listar, não mostra um índice vazio
+    if (empty($headings)) {
+        return '';
     }
+
+    $class = $shortcode_atts['esconder_numeracao'] ? ' class="hide-bullets"' : '';
+
+    $menu  = '<div class="sidebar-menu">';
+    $menu .= '<h2>Índice de conteúdos</h2>';
+    $menu .= '<ol' . $class . '>';
+
+    for ($i = 0; $i < count($headings); $i++) {
+        $menu .= '<li><a href="#' . esc_attr($hrefs[$i]) . '">' . wp_strip_all_tags($headings[$i]) . '</a></li>';
+    }
+
+    $menu .= '</ol>';
+    $menu .= '</div>';
 
     return $menu;
 }
@@ -440,12 +496,12 @@ if (!function_exists("ama_index_menu_2lvls")) {
             $atts
         );
 
-        $content = get_the_content();
+        $content = ama_indice_adicionar_ids(get_the_content());
 
-        $list_tag = ($atts["esconder_numeracao"]) ? 'ul' : 'ol';
+        $list_tag = ($shortcode_atts['esconder_numeracao']) ? 'ul' : 'ol';
 
         // Match both h2 and h3 elements
-        preg_match_all('@<h(2|3)[^>]*id=[\'"](.*?)[\'"][^>]*>(.*?)<\/h(2|3)>@i', $content, $matches, PREG_SET_ORDER);
+        preg_match_all('@<h(2|3)[^>]*\sid=[\'"](.*?)[\'"][^>]*>(.*?)<\/h(2|3)>@is', $content, $matches, PREG_SET_ORDER);
 
         $menu = '';
         $previousTag = '';
