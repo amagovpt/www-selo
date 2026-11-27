@@ -10,7 +10,7 @@
  *
  * Uso: get_template_part( 'template-parts/cabecalho', 'pagina', $args ), com $args opcionais:
  *   'post_id'   => ID da página de onde vêm título, excerto e imagem (por omissão, a atual);
- *   'titulo'    => texto do H1;
+ *   'titulo'    => HTML do H1 (por omissão, ama_titulo_h1(): o título com HTML, se existir);
  *   'descricao' => HTML da descrição (null = excerto da página; '' = sem descrição);
  *   'imagem'    => HTML da imagem (null = imagem destacada; '' = sem imagem);
  *   'migalhas'  => [ [ 'url' => …, 'titulo' => … ], … ] entre "Início" e a página atual
@@ -25,7 +25,7 @@ defined( 'ABSPATH' ) || exit;
 $args    = isset( $args ) && is_array( $args ) ? $args : [];
 $post_id = (int) ( $args['post_id'] ?? get_the_ID() );
 
-$titulo = $args['titulo'] ?? ( $post_id ? get_the_title( $post_id ) : '' );
+$titulo = $args['titulo'] ?? ( $post_id ? ama_titulo_h1( $post_id ) : '' );
 
 // Descrição: o excerto escrito na página (com HTML), nunca o resumo automático do conteúdo.
 if ( array_key_exists( 'descricao', $args ) && null !== $args['descricao'] ) {
@@ -54,7 +54,8 @@ if ( array_key_exists( 'migalhas', $args ) && null !== $args['migalhas'] ) {
 	}
 }
 
-$atual = $args['atual'] ?? $titulo;
+// O breadcrumb usa o título normal, sem o HTML do H1 (ver inc/titulo-h1.php).
+$atual = $args['atual'] ?? ( $args['titulo'] ?? ( $post_id ? get_the_title( $post_id ) : '' ) );
 ?>
 <div class="cabecalho-pagina">
 	<div class="container">

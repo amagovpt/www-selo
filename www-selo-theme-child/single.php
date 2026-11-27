@@ -58,7 +58,7 @@ while ( have_posts() ) :
                     <div class="row gx-4 gx-lg-5">
                         <div class="col-12 col-md-8">
                             <a href="<?= esc_url( $blog_url ); ?>" class="version">Blogue<span class="visually-hidden">: consultar todos os artigos</span></a>
-                            <h1 class="mb-2"><?php the_title(); ?></h1>
+                            <h1 class="mb-2"><?= ama_titulo_h1(); ?></h1>
                             <p class="last-update py-2 mb-0">
                                 <time datetime="<?= esc_attr( get_the_date( 'Y-m-d' ) ); ?>"><?= esc_html( get_the_date( 'j \d\e F, Y' ) ); ?></time>
                             </p>

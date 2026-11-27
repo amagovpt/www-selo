@@ -46,7 +46,7 @@ get_header();
                             </nav>
                             <div class="row">
                                 <div class="col-12 col-lg-8 d-flex flex-column justify-content-center <?php echo has_excerpt() ? '' : ' align-self-center'; ?>">
-                                    <h1><?php the_title(); ?></h1>
+                                    <h1><?= ama_titulo_h1(); ?></h1>
                                     <?php
                                     if ( has_excerpt() ) : ?>
                                         <div class="excerpt">

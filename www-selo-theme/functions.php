@@ -242,6 +242,7 @@ add_action('wp_footer', function () {
 });
 
 include 'inc/indicadores.php';
+include 'inc/titulo-h1.php';
 
 function ama_pagination($args = [])
 {

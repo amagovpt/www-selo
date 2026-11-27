@@ -57,7 +57,7 @@ if (!$__embed) {
 <div class="page-header">
   <div class="row">
     <div class="col-12 col-lg-8<?php echo has_excerpt() ? '' : ' align-self-end'; ?>">
-      <h1><?php the_title(); ?></h1>
+      <h1><?= ama_titulo_h1(); ?></h1>
       <?php if (has_excerpt()) : ?>
         <div class="excerpt"><?php the_excerpt(); ?></div>
       <?php endif; ?>
