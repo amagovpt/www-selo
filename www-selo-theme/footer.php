@@ -22,7 +22,7 @@ defined( 'ABSPATH' ) || exit;
             <?php dynamic_sidebar( 'Footer' ); ?>
         </div>
         <?php if ( function_exists( 'ama_cookie_settings_button' ) ) : ?>
-            <p class="mt-3"><?= ama_cookie_settings_button() ?></p>
+            <p class="mt-3 text-center"><?= ama_cookie_settings_button() ?></p>
         <?php endif; ?>
 
         <?php dynamic_sidebar( 'Copyright' ); ?>
